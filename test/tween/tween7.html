@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			#div3{
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: absolute;
+				left:0px;
+				top:20px;
+				text-align: center;
+			}
+			input{
+				margin: 0 auto;
+			}
+			#div2{
+				position: relative;
+				top:30px;
+			}
+			#line {
+				width: 1000px;
+				height: 10px;
+				background: red;
+				position: absolute;
+				top:200px;
+				left:0px;
+			}
+			#line_div {
+				width: 100px;
+				height: 100%;
+				position: absolute;
+				left: 0px;
+				top:0px;
+				background: blue;
+			}
+		</style>
+		<script type="text/javascript" src="./js/jquery.js"></script>
+		<script type="text/javascript" src="./js/TweenMax.js"></script>
+<script>
+
+window.onload = function (){
+	
+	var se = {};
+
+	se.line = new TimelineMax();
+
+	se.config = function (){
+		//se.line.add("state1");
+
+		se.line.to("#div3",0.5,{width:500});
+
+		se.line.add("state1");
+
+		se.line.to("#div3",0.6,{width:700},"+=5");
+
+		se.line.add("state2");
+
+		se.line.to("#div3",1,{width:400});
+
+		se.line.add("state3");
+
+		se.line.stop();
+
+	};
+
+	se.config();
+
+
+	var div3Jaon = {};
+
+	//div3Jaon
+
+	div3Jaon.config = function (){
+			
+	};
+
+	var tween2 = new TimelineMax();
+
+	se.currentState = "state1";
+
+	var positionY;
+
+	var isAnimate = true;
+
+	$("#prev").bind("click",function (){
+		//下一个状态
+		var nextLabel = se.line.getLabelAfter(se.line.getLabelTime( se.currentState ));
+
+		if( !nextLabel ) return;
+		//下一个状态所需要的时间,从第一个状态开始，直到此次状态，总共的时间
+		var nextTime = se.line.getLabelTime( nextLabel );
+		var totalDuration = se.line.totalDuration();  //整个动画总共完成时间
+		var scroll = nextTime / totalDuration; //当前状态在整个延迟时间所占的比例
+		//下一个需要完成动画的时间
+		var duration = Math.abs(se.line.time() - se.line.getLabelTime( nextLabel ));
+
+
+		positionY = ( $("#line").width() - $("#line_div").width()) * scroll;
+		
+		TweenMax.to( "#line_div",duration,{left:positionY,onUpdate:function (){
+			isAnimate = false;
+		},onComplete:function (){
+			isAnimate = true;	
+		}});
+
+		se.currentState = nextLabel;
+	});
+
+
+	var timer = null;
+
+	$("#prev").bind("click",function (){
+
+		timer = setInterval(function (){
+			if( !isAnimate ){
+				var currentLeft = parseFloat($("#line_div").css("left"));
+				var scale = currentLeft/( parseFloat($("#line").width()) - parseFloat($("#line_div").width()) );
+
+				var times = scale * se.line.totalDuration();
+
+				se.line.seek(times,false);
+			}else{
+				clearInterval( timer );
+			}
+		},16);
+		
+		
+
+	});
+
+};
+
+</script>
+	</head>
+
+	<body>
+		<div id="div2">
+			<input type="button" value="向后" id="back" />
+			<input type="button" value="向前" id="prev" />
+			<div id="div3">
+				<p id="op1">123</p>
+				<p id="op2">456</p>
+			</div>
+			<div id="line">
+				<div id="line_div"></div>
+			</div>
+		</div>
+	</body>
+</html>

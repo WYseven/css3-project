@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			*{
+				padding: 0;
+				margin:0;
+			}
+			#wapper{
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				left: 0;
+				top:0;
+				bottom: 0;
+				right: 0;
+				background: red;
+				z-index: 1;
+			}
+			.nav {
+				height: 70px;
+				background: green;
+				position: fixed;
+				left: 1100px;
+				top:0px;
+				right: 20px;
+				opacity: 0;
+				z-index: 999;
+			}
+			.nav p {
+				opacity: 0;
+			}
+			.scene {
+				width: 100%;
+				position: absolute;
+				left: 0px;
+				top:0px;
+				background: yellow;
+			}
+			.scene p {
+				text-align: center;
+				line-height: 300px;
+				opacity: 0;
+			}
+			.scene2 {
+				background: blue;
+			}
+			.scene3 {
+				background: #000;
+			}
+		</style>
+		<script type="text/javascript" src="./js/jquery.js"></script>
+		<script type="text/javascript" src="./js/jquery.mousewheel.js"></script>
+		<script type="text/javascript" src="./js/TweenMax.js"></script>
+<script>
+	function mousewheel(obj,callBack){
+		obj.onmousewheel = fn;
+		if( obj.addEventListener ){
+			obj.addEventListener("DOMMouseScroll",fn,false);
+		};
+		function fn(ev){
+
+			var e = ev || event;
+
+			var flag = true;
+			//ie和chrome
+			if( e.wheelDelta ){
+				flag = e.wheelDelta > 0 ? true : false;
+			}else{
+				flag = e.detail < 0 ? true : false;
+			};
+
+			if( flag ){  //向上  > 1 向上
+				callBack(e,2);
+			}else{  //向下  < 1 向下
+				callBack(e,0);
+			};
+
+			//取消火狐浏览器的默认行为
+			/*if( e.preventDefault ){
+				e.preventDefault();
+			}
+
+			//取消ie和chrome的默认行为
+			return false;*/
+		};
+	};
+	function view(){
+		return {
+			H:document.documentElement.clientHeight,
+			W:document.documentElement.clientWidth
+		}
+	};
+	/*function $(selector,content){
+		content = content || document;
+		var tag = selector.charAt(),
+			arr = [],
+			allClassEle = null;
+		if( tag === "#" ){
+			selector = selector.substring(1);
+			return content.getElementById(selector);
+		}else if( tag === "." ){
+			selector = selector.substring(1);	
+			allClassEle = content.getElementsByTagName("*");	// [div,ul,li]
+			var re = new RegExp('\\b'+ selector +'\\b');
+			for( var i = 0; i < allClassEle.length; i++ ){
+				if( re.test( allClassEle[i].className ) ){
+					arr.push(allClassEle[i]);
+				}
+			};
+
+			return arr;
+		}else{
+			return content.getElementsByTagName(selector);
+		}
+	};*/
+
+	var Stage = {};
+
+	Stage.currentState = "scene1";
+
+	Stage.init = function (){
+		Stage.configTimeInit();	
+	};
+
+	Stage.onMouseWheel = function (ev,dir){
+		if( dir >= 1 ){
+			Stage.changeState("prev");
+		}else{
+			Stage.changeState("next");
+		};
+
+		TweenMax.delayedCall( 1.2, function(){ $(window).one("mousewheel",Stage.onMouseWheel); } );
+	};
+
+	Stage.changeState = function (value){
+		if( value === "prev" ){ //向上
+			var nextLabel = Stage.timeScroll.getLabelBefore(Stage.timeScroll.getLabelTime(Stage.currentState));
+			if( !nextLabel ) return;
+			var scroll = Stage.timeScroll.getLabelTime(nextLabel)/ Stage.timeScroll.totalDuration();
+			var duration = Math.abs(  Stage.timeScroll.time() - Stage.timeScroll.getLabelTime(nextLabel) );
+			var positionY = (jQuery("body").height()-jQuery(window).height())*scroll;
+
+			TweenMax.to("html body", duration, { scrollTop:positionY, ease:"linear"} );
+			
+			Stage.currentState = nextLabel;
+		}else{ //向下
+			//找到下一个状态
+			var nextLabel = Stage.timeScroll.getLabelAfter(Stage.timeScroll.getLabelTime(Stage.currentState));
+			if( !nextLabel ) return;
+			var scroll = Stage.timeScroll.getLabelTime(nextLabel)/ Stage.timeScroll.totalDuration();
+			var duration = Math.abs(  Stage.timeScroll.time() - Stage.timeScroll.getLabelTime(nextLabel) );
+			var positionY = (jQuery("body").height()-jQuery(window).height())*scroll;
+
+			TweenMax.to("html body", duration, { scrollTop:positionY, ease:"linear"} );
+			
+			Stage.currentState = nextLabel;
+
+		}
+	};
+	Stage.configTimeScroll = function (){
+		var time = (Stage.timeScroll) ? Stage.timeScroll.time() : 0;
+
+		if( Stage.timeScroll ) Stage.timeScroll.clear();
+
+		 Stage.timeScroll = new TimelineMax();
+
+		 Stage.timeScroll.add("scene1");
+
+		 Stage.timeScroll.to(".scene2",0.6,{top:0});
+
+		 Stage.timeScroll.add("scene2");
+
+		 Stage.timeScroll.to(".scene3",0.8,{top:0});
+
+		 Stage.timeScroll.add("scene3");
+
+		 Stage.timeScroll.stop();
+
+		 try{ Stage.timeScroll.seek(time); }catch(err){};
+
+	};
+
+	Stage.configTimeInit = function (){
+		var t = new TimelineMax({delay:0.5});
+
+		t.to(".nav",0.6,{alpha:1});
+		t.to(".nav",1,{left:20});
+		t.to(".nav p",1,{alpha:1});
+		t.to(".scene1 p",1,{alpha:1});
+
+		//t.stop();
+
+	};
+
+	Stage.scrollStatus = function (){
+		var top = $(window).scrollTop();//滾動條滾動的
+		var h = $(window).height();  //可視區域的高度
+		var height = jQuery(document).height();
+		var scale = top/(height - h)
+		var times = scale * Stage.timeScroll.totalDuration();
+		Stage.timeScroll.seek(times, false);
+	};
+
+
+
+	function changeHeight(){
+		var scene = $(".scene");
+
+		for( var i = 0; i < scene.length; i++ ){
+			if(i !== 0) scene[i].style.top = view().H + "px";	
+			scene[i].style.height = view().H + "px";		
+		}	
+	}
+
+
+	window.onload = function(){
+		var t = new TimelineMax();
+
+		$("#wapper").bind("mousewheel",function(e){ e.preventDefault(); });
+        $("#wapper").one("mousewheel",Stage.onMouseWheel);
+		
+
+		$(".scene")[0].style.height = view().H + "px";
+
+		changeHeight();
+
+		Stage.init();
+
+		Stage.configTimeScroll();
+
+		$(window).scroll(Stage.scrollStatus);
+
+		window.onresize = function (){
+			changeHeight();
+		};
+
+
+	};
+</script>
+	</head>
+
+	<body style="height:8500px;">
+		<div id="wapper">
+			<div class="scene scene1">
+				<p>111111111111111111111</p>
+			</div>
+			<div class="scene scene2">
+				<p class="p1">2222222222222222222222222222222222222</p>
+				<p class="p2">2222222222222222222222222222222222222</p>
+			</div>
+			<div class="scene scene3">
+				2222222222222222222222222222222222222
+			</div>
+		</div>
+		<div class="nav">
+			<p>1111111111111111111111111111</p>
+		</div>
+	</body>
+</html>

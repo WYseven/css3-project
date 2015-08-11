@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			#div3{
+				width: 300px;
+				height: 300px;
+				background: red;
+				position: absolute;
+				left:0px;
+				top:20px;
+				text-align: center;
+
+			}
+			input{
+				margin: 0 auto;
+			}
+			#div2{
+				position: relative;
+				top:30px;
+			}
+			#line {
+				width: 1000px;
+				height: 10px;
+				background: red;
+				position: absolute;
+				top:400px;
+				left:0px;
+			}
+			#line_div {
+				width: 100px;
+				height: 100%;
+				position: absolute;
+				left: 0px;
+				top:0px;
+				background: blue;
+			}
+			p img{
+				width: 200px;
+				height: 200px;
+				position: absolute;
+				left: 50%;
+				top:50%;
+				margin: -100px;
+			}
+		</style>
+		<script type="text/javascript" src="./js/jquery.js"></script>
+		<script type="text/javascript" src="./js/TweenMax.js"></script>
+<script>
+
+window.onload = function (){
+	
+	var se = {};
+
+	se.line = new TimelineMax();
+
+	se.config = function (){
+		//se.line.add("state1");
+
+		//se.line.to("#div3",0.5,{width:500});
+
+		se.line.add("state1");
+
+		se.line.to("#div3",0.6,{width:700});
+
+		se.line.to({space:0},0.21,{space:1, ease:Cubic.easeInOut, onReverseComplete:function(){ oImg.line.tweenTo('state1') }, onComplete:function(){ oImg.line.tweenTo('point1'); }});
+		se.line.add(function (){
+			oImg.line.tweenTo('point1');	
+		},"-=0.1");
+
+		se.line.add("point1");
+
+		se.line.to({space:0},0.21,{space:1, ease:Cubic.easeInOut, onReverseComplete:function(){ oImg.line.tweenTo('point1') }, onComplete:function(){ oImg.line.tweenTo('point2'); }});
+		se.line.add(function (){
+			oImg.line.tweenTo('point2');	
+		},"-=0.1");
+
+		se.line.add("point2");
+
+		se.line.to("#div3",1,{width:1000});
+
+		se.line.add("state2");
+
+		se.line.stop();
+
+	};
+
+	se.config();
+
+
+	var div3Jaon = {};
+
+	//div3Jaon
+
+	div3Jaon.config = function (){
+			
+	};
+
+	var tween2 = new TimelineMax();
+
+	se.currentState = "state1";
+
+	var positionY;
+
+	var isAnimate = true;
+
+	$("#prev").bind("click",function (){
+		//下一个状态
+		var nextLabel = se.line.getLabelAfter(se.line.getLabelTime( se.currentState ));
+
+		if( !nextLabel ) return;
+		//下一个状态所需要的时间,从第一个状态开始，直到此次状态，总共的时间
+		var nextTime = se.line.getLabelTime( nextLabel );
+		var totalDuration = se.line.totalDuration();  //整个动画总共完成时间
+		var scroll = nextTime / totalDuration; //当前状态在整个延迟时间所占的比例
+		//下一个需要完成动画的时间
+		var duration = Math.abs(se.line.time() - se.line.getLabelTime( nextLabel ));
+
+		positionY = ( $("#line").width() - $("#line_div").width()) * scroll;
+		
+		TweenMax.to( "#line_div",duration,{left:positionY,onUpdate:function (){
+			isAnimate = false;
+		},onComplete:function (){
+			isAnimate = true;
+		}});
+
+		se.currentState = nextLabel;
+	});
+
+
+	var timer = null;
+
+	$("#prev").bind("click",function (){
+
+		timer = setInterval(function (){
+			if( !isAnimate ){
+				var currentLeft = parseFloat($("#line_div").css("left"));
+				var scale = currentLeft/( parseFloat($("#line").width()) - parseFloat($("#line_div").width()) );
+
+				var times = scale * se.line.totalDuration();
+
+				se.line.seek(times,false);
+			}else{
+				clearInterval( timer );
+			}
+		},16);
+	});
+
+	$("#back").bind("click",function (){
+		//下一个状态
+		var nextLabel = se.line.getLabelBefore(se.line.getLabelTime( se.currentState ));
+
+		if( !nextLabel ) return;
+		//下一个状态所需要的时间,从第一个状态开始，直到此次状态，总共的时间
+		var nextTime = se.line.getLabelTime( nextLabel );
+		var totalDuration = se.line.totalDuration();  //整个动画总共完成时间
+		var scroll = nextTime / totalDuration; //当前状态在整个延迟时间所占的比例
+		//下一个需要完成动画的时间
+		var duration = Math.abs(se.line.time() - se.line.getLabelTime( nextLabel ));
+
+
+		positionY = ( $("#line").width() - $("#line_div").width()) * scroll;
+		
+		TweenMax.to( "#line_div",duration,{left:positionY,onUpdate:function (){
+			isAnimate = false;
+		},onComplete:function (){
+			isAnimate = true;	
+		}});
+
+		se.currentState = nextLabel;
+	});
+
+	$("#back").bind("click",function (){
+
+		timer = setInterval(function (){
+			if( !isAnimate ){
+				var currentLeft = parseFloat($("#line_div").css("left"));
+				var scale = currentLeft/( parseFloat($("#line").width()) - parseFloat($("#line_div").width()) );
+
+				var times = scale * se.line.totalDuration();
+
+				se.line.seek(times,false);
+			}else{
+				clearInterval( timer );
+			}
+		},16);
+	});
+
+
+	var oImg = {};
+	oImg.line = new TimelineMax();
+	oImg.config = function (){
+		
+		oImg.line.to("#div3 img",0,{rotationX:-90});
+		//oImg.line.staggerTo("#div3 img",0,{rotationX:-90});
+
+		oImg.line.add("state1");
+
+		oImg.line.staggerTo("#op1 img",0.5,{alpha:1,rotationX:0});
+
+		oImg.line.add("point1");
+
+		oImg.line.staggerTo("#op1 img",0,{alpha:0,rotationX:-90},0);
+
+		oImg.line.staggerTo("#op2 img",0.5,{rotationX:0});
+
+		oImg.line.add("point2");
+
+		oImg.line.stop();
+
+	};
+
+	oImg.config();
+
+};
+
+</script>
+	</head>
+
+	<body>
+		<div id="div2">
+			<input type="button" value="向后" id="back" />
+			<input type="button" value="向前" id="prev" />
+			<div id="div3">
+				<p id="op1">
+					<img src="./1.jpg" alt="">
+				</p>
+				<p id="op2">
+					<img src="./2.jpg" alt="">
+				</p>
+				<p id="op2">
+					<img src="./3.jpg" alt="">
+				</p>
+			</div>
+			<div id="line">
+				<div id="line_div"></div>
+			</div>
+		</div>
+	</body>
+</html>

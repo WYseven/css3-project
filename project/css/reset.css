@@ -1,0 +1,21 @@
+body,ul,li {
+	padding: 0;
+	margin:0;
+}
+body {
+	background: #4BC587;
+	font-family: "latoregular";
+	font-size: 14px;
+	overflow-x:hidden;
+}
+
+li{
+	list-style: none;
+}
+a{
+	text-align: center;
+	text-decoration: none;
+}
+img{
+	border:0;
+}

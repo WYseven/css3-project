@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			*{padding: 0;margin: 0;}
+			body{
+				overflow: hidden;
+			}
+			.warpper {
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top:0px;
+				bottom: 0px;
+			}
+			.sence1{
+				width: 100%;
+				position: absolute;
+				top:0px;
+				left: 0px;
+				background: red;
+				-webkit-transition:all 1s ease-out;
+			}
+			.div2{
+				background: blue;
+			}
+			.div3{
+				background: green;
+			}
+		</style>
+		<script src="./jquery.js"></script>
+<script>
+	function view(){
+		return {
+			H:document.documentElement.clientHeight,
+			W:document.documentElement.clientWidth
+		}
+	};
+	function scroll_h(){
+		return document.documentElement.scrollTop || document.body.scrollTop;
+	}
+	/*function $(selector,content){
+		content = content || document;
+		var tag = selector.charAt(),
+			arr = [],
+			allClassEle = null;
+		if( tag === "#" ){
+			selector = selector.substring(1);
+			return content.getElementById(selector);
+		}else if( tag === "." ){
+			selector = selector.substring(1);	
+			allClassEle = content.getElementsByTagName("*");	// [div,ul,li]
+			var re = new RegExp('\\b'+ selector +'\\b');
+			for( var i = 0; i < allClassEle.length; i++ ){
+				if( re.test( allClassEle[i].className ) ){
+					arr.push(allClassEle[i]);
+				}
+			};
+
+			return arr;
+		}else{
+			return content.getElementsByTagName(selector);
+		}
+	};*/
+	(function ($){
+		$.fn.mousewheel =  function(fun){
+		    return this.each(function(){
+		        var that = this;
+		            that.delta = 0; //滚动方向
+		        
+		        if($.browser.msie || $.browser.safari){ //IE Safari 
+		            that.onmousewheel = function(){
+		                that.delta = event.wheelDelta; // IE,Opera,Safari,Chrome 使用wheelDelta 只取 +-120
+		                event.returnValue = false;
+		                fun && fun.call(that); //    
+		            }
+		        } else { //Firefox
+		            that.addEventListener('DOMMouseScroll', function(e){
+		                that.delta = e.detail > 0 ? -1 : 1; // Firefox 使用 detail 只取 +-3
+		                e.preventDefault();
+		                fun && fun.call(that);
+		            }, false);
+		        }
+		    });
+		    
+		}		
+	})(jQuery)
+	window.onload = function (){
+		var sence = $(".sence1");
+		window.onresize = function (){
+			fn();	
+		};
+		fn();
+		function fn(){
+			for(var i = 0; i < sence.length; i++ ){
+				$(".sence1")[i].style.height = view().H + "px";
+				if(i !== 0) $(".sence1")[i].style.top = view().H + "px";
+			};	
+		};
+
+		/*window.onscroll = function (){
+			//var viewH = view().H;
+			var scrollH = scroll_h();
+
+			//console.log(430- scrollH/2);
+
+			//console.log( scrollH );
+
+			//sence[1].style.top = 430- scrollH/2 + "px";
+			//sence[1].style.top = 0 + "px";
+		};*/
+		
+	};
+
+	$(function (){
+		$(".warpper").on("mousewheel",function (event,delta){
+			$("html,body").animate({
+				scrollTop:1500
+			});
+		})	
+	});
+</script>
+	</head>
+
+	<body style="height: 8500px; overflow-y: scroll;">
+		<div class="warpper">
+			<div class="sence1"></div>
+			<div class="sence1 div2"></div>
+			<div class="sence1 div3"></div>
+		</div>
+	</body>
+</html>

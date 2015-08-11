@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			#div1{
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: fixed;
+				left: 0px;
+				top:0px;
+			}
+			#div2{
+				width: 100px;
+				height: 100px;
+				background: blue;
+				position: absolute;
+				left: 0px;
+				top:0px;
+			}
+		</style>
+		<script type="text/javascript" src="./js/TweenMax.js"></script>
+		<script>
+			window.onload = function(){
+				var t = new TimelineMax();
+
+				function myFn(){
+					console.log( 123 );
+				};
+
+				t.add("a");
+				t.to(div1,1,{left:500});
+				t.to(div1,1,{top:500});
+				t.to({ban:0},0.1,{ban:1,onReverseComplete:function (){
+					console.log("123");		
+				},onComplete:function (){
+					console.log(12333333333333);		
+				}},"-=0.2");
+
+				t.to(div2,1,{left: 1000});
+				t.add(function (){
+					div1.className = "active";	
+				})
+				t.add("b");
+
+				document.onclick = function (){
+					//t.reverse();
+					t.tweenTo("a");
+				};
+			};
+		</script>
+	</head>
+
+	<body>
+		<div id="div1"></div>
+		<div id="div2"></div>
+	</body>
+</html>

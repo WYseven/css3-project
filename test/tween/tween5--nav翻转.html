@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			*{
+				padding: 0;
+				margin:0;
+			}
+			#wapper{
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				left: 0;
+				top:0;
+				bottom: 0;
+				right: 0;
+				background: red;
+				z-index: 1;
+			}
+			.nav {
+				height: 78px;
+				position: fixed;
+				left: 20px;
+				top:20px;
+				right: 20px;
+				z-index: 999;
+			}
+			.menu {
+				height: 100%;
+				background: green;
+				position: absolute;
+				left: 1100px;
+				top:0px;
+				right: 20px;
+			}
+			.nav p {
+				opacity: 0;
+			}
+			.scene {
+				width: 100%;
+				position: absolute;
+				left: 0px;
+				top:0px;
+				background: yellow;
+			}
+			.scene p {
+				text-align: center;
+				line-height: 300px;
+				opacity: 0;
+			}
+			.nav .state1{
+				background: red;
+			}
+			.scene2,.nav .state3 {
+				background: blue;
+			}
+			.scene3,.nav .state2 {
+				background: #000;
+			}
+		</style>
+		<script type="text/javascript" src="./js/jquery.js"></script>
+		<script type="text/javascript" src="./js/jquery.mousewheel.js"></script>
+		<script type="text/javascript" src="./js/TweenMax.js"></script>
+<script>
+	function mousewheel(obj,callBack){
+		obj.onmousewheel = fn;
+		if( obj.addEventListener ){
+			obj.addEventListener("DOMMouseScroll",fn,false);
+		};
+		function fn(ev){
+
+			var e = ev || event;
+
+			var flag = true;
+			//ie和chrome
+			if( e.wheelDelta ){
+				flag = e.wheelDelta > 0 ? true : false;
+			}else{
+				flag = e.detail < 0 ? true : false;
+			};
+
+			if( flag ){  //向上  > 1 向上
+				callBack(e,2);
+			}else{  //向下  < 1 向下
+				callBack(e,0);
+			};
+
+			//取消火狐浏览器的默认行为
+			/*if( e.preventDefault ){
+				e.preventDefault();
+			}
+
+			//取消ie和chrome的默认行为
+			return false;*/
+		};
+	};
+	function view(){
+		return {
+			H:document.documentElement.clientHeight,
+			W:document.documentElement.clientWidth
+		}
+	};
+
+	var Stage = {};
+
+	Stage.currentState = "scene1";
+
+	Stage.init = function (){
+
+		Stage.configTimeInit();	
+
+		Stage.configEvents();
+
+
+	};
+
+	Stage.configEvents = function (){
+		$("#wapper").bind("mousewheel",function(e){ e.preventDefault(); });
+        $("#wapper").one("mousewheel",Stage.onMouseWheel);
+        $(window).scroll(Stage.scrollStatus);
+
+        $(window).bind("scroll",function (){
+			$(window).unbind("mouseup").one('mouseup',function(ev) {
+				var scroll = Stage.sacle();
+				var current_time = scroll * Stage.timeScroll.totalDuration();
+				var prev_label = Stage.timeScroll.getLabelBefore( current_time );
+				
+					if(!prev_label) prev_label = "scene1";
+				var next_label = Stage.timeScroll.getLabelAfter( current_time );
+                	if(next_label == null) next_label = "scene3";
+
+                	var prev_label_time = Math.abs(Stage.timeScroll.getLabelTime(Stage.timeScroll.getLabelBefore( current_time )) - current_time);
+                    var next_label_time = Math.abs(Stage.timeScroll.getLabelTime(Stage.timeScroll.getLabelAfter( current_time )) - current_time);
+                    if(scroll == 0){
+                        Stage.currentState = "scene1";
+                        Stage.gotoLabel(Stage.currentState);
+                    }else if(scroll == 1){
+                        Stage.currentState = "scene3";
+                        Stage.gotoLabel(Stage.currentState);
+                    }else if(prev_label_time < next_label_time){
+                        Stage.gotoLabel(prev_label);
+                        Stage.currentState = prev_label;
+                    }else{
+                        Stage.gotoLabel(next_label);
+                        Stage.currentState = next_label;
+                    };
+
+			});	
+        })
+	};
+
+	 Stage.gotoLabel = function (label){
+	 	var scroll = Stage.timeScroll.getLabelTime(label)/ Stage.timeScroll.totalDuration();
+	 	var duration = Math.abs(  Stage.timeScroll.time() - Stage.timeScroll.getLabelTime(label) );
+	 	var positionY = (jQuery("body").height()-jQuery(window).height())*scroll;
+
+	 	TweenMax.to("html body", duration, { scrollTop:positionY, ease:"linear"} );
+	 	
+	 	Stage.currentState = label;	
+	 };
+
+	Stage.onMouseWheel = function (ev,dir){
+		if( dir >= 1 ){
+			Stage.changeState("prev");
+		}else{
+			Stage.changeState("next");
+		};
+
+		TweenMax.delayedCall( 1.2, function(){ $(window).one("mousewheel",Stage.onMouseWheel); } );
+	};
+
+	Stage.changeState = function (value){
+		if( value === "prev" ){ //向上
+			var nextLabel = Stage.timeScroll.getLabelBefore(Stage.timeScroll.getLabelTime(Stage.currentState));
+			if( !nextLabel ) return;
+			var scroll = Stage.timeScroll.getLabelTime(nextLabel)/ Stage.timeScroll.totalDuration();
+			var duration = Math.abs(  Stage.timeScroll.time() - Stage.timeScroll.getLabelTime(nextLabel) );
+			var positionY = (jQuery("body").height()-jQuery(window).height())*scroll;
+
+			TweenMax.to("html body", duration, { scrollTop:positionY, ease:"linear"} );
+			
+			Stage.currentState = nextLabel;
+		}else{ //向下
+			//找到下一个状态
+			var nextLabel = Stage.timeScroll.getLabelAfter(Stage.timeScroll.getLabelTime(Stage.currentState));
+			if( !nextLabel ) return;
+			var scroll = Stage.timeScroll.getLabelTime(nextLabel)/ Stage.timeScroll.totalDuration();
+			var duration = Math.abs(  Stage.timeScroll.time() - Stage.timeScroll.getLabelTime(nextLabel) );
+			var positionY = (jQuery("body").height()-jQuery(window).height())*scroll;
+
+			TweenMax.to("html body", duration, { scrollTop:positionY, ease:"linear"} );
+			
+			Stage.currentState = nextLabel;
+
+		}
+	};
+	Stage.configTimeScroll = function (){
+		var time = (Stage.timeScroll) ? Stage.timeScroll.time() : 0;
+
+		if( Stage.timeScroll ) Stage.timeScroll.clear();
+
+		 Stage.timeScroll = new TimelineMax();
+
+		 Stage.timeScroll.add("scene1");
+		 Stage.timeScroll.to({ban:0},0.1, {ban:1, onReverseComplete:function(){ menu.changeMenu('state1'); } , onComplete:function(){ menu.changeMenu('state2'); } }, "-=0.2");
+
+		 Stage.timeScroll.to(".scene2",0.6,{top:0});
+
+		 Stage.timeScroll.add("scene2");
+
+		 Stage.timeScroll.to(".scene3",0.8,{top:0});
+
+		 Stage.timeScroll.to({ban:0},0.1, {ban:1, onReverseComplete:function(){ menu.changeMenu('state2'); } , onComplete:function(){ menu.changeMenu('state3'); } }, "-=0.2");
+
+		 Stage.timeScroll.add("scene3");
+
+		 Stage.timeScroll.stop();
+
+		 try{ Stage.timeScroll.seek(time); }catch(err){};
+
+	};
+
+	Stage.configTimeInit = function (){
+		var t = new TimelineMax({delay:0.5});
+
+		t.to(".menu",0.6,{alpha:1});
+		t.to(".menu",1,{left:20});
+		t.to(".menu p",1,{alpha:1});
+		t.to(".scene1 p",1,{alpha:1});
+
+		//t.stop();
+
+	};
+
+	Stage.scrollStatus = function (){
+		//每次滚动的距离
+		var times = Stage.sacle() * Stage.timeScroll.totalDuration();
+		Stage.timeScroll.seek(times, false);
+	};
+
+	//滚动的比例
+
+	Stage.sacle = function (){
+		var top = $(window).scrollTop();//滾動條滾動的
+		var h = $(window).height();  //可視區域的高度
+		var height = jQuery(document).height();
+		var scale = top/(height - h);
+		return scale;
+	};
+
+
+
+	function changeHeight(){
+		var scene = $(".scene");
+
+		for( var i = 0; i < scene.length; i++ ){
+			if(i !== 0) scene[i].style.top = view().H + "px";	
+			scene[i].style.height = view().H + "px";		
+		}
+	}
+
+
+	var menu = {};
+
+	menu.changeMenu = function (state){
+		var item_to_remove =  $(".menu");
+		var item = $(item_to_remove).clone();
+		    $(item).removeClass("state1").removeClass("state2").removeClass("state3");
+		    $(item).addClass(state);
+
+		    $(".nav").append(item);
+            $(item_to_remove).addClass("remove_menu");
+              var timeline = new TimelineMax({onComplete:function(){ $(".remove_menu").remove(); } });
+                timeline.to(item, 0, {top:100, y:0});
+                timeline.to($(item_to_remove), 0, {rotationX:0, y:0, top:22, transformPerspective:600, transformOrigin:"center bottom" } );
+                timeline.to($(item), 0, {rotationX:-90, transformPerspective:600, transformOrigin:"top center" } );
+                timeline.to(item_to_remove, 0.3, {alpha:1, rotationX:90, y:-jQuery(item_to_remove).height(),  ease:Cubic.easeInOut } )
+                timeline.to(item, 0.3, {rotationX:0, y:-jQuery(item_to_remove).height(), ease:Cubic.easeInOut }, "-=0.3" );
+	};
+
+
+	window.onload = function(){
+		var t = new TimelineMax();
+
+		
+		
+
+		$(".scene")[0].style.height = view().H + "px";
+
+		changeHeight();
+
+		Stage.init();
+
+		Stage.configTimeScroll();
+
+		
+
+		window.onresize = function (){
+			changeHeight();
+		};
+
+
+	};
+</script>
+	</head>
+
+	<body style="height:8500px;">
+		<div id="wapper">
+			<div class="scene scene1">
+				<p>111111111111111111111</p>
+			</div>
+			<div class="scene scene2">
+				<p class="p1">2222222222222222222222222222222222222</p>
+				<p class="p2">2222222222222222222222222222222222222</p>
+			</div>
+			<div class="scene scene3">
+				2222222222222222222222222222222222222
+			</div>
+		</div>
+		<div class="nav">
+			<div class="menu">
+				
+				<p>1111111111111111111111111111</p>
+			</div>
+		</div>
+	</body>
+</html>

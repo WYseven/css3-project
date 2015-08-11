@@ -1,0 +1,22 @@
+.menu_wrapper {
+	position: fixed;
+	left: 0;
+	right: 0;
+}
+.menu{
+	position: absolute;
+	top: 22px;
+	left: 22px;
+	right: 22px;
+	height: 78px;
+}
+.menu .content {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 217px;
+  background: rgba(83,212, 145, 0.7);
+  background: #53D491;
+  letter-spacing: 2px;
+}

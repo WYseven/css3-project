@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			#div1{
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: absolute;
+				left: 0px;
+				top:30px;
+			}
+			#div2{
+				width: 100px;
+				height: 100px;
+				background: blue;
+				position: absolute;
+				left: 0px;
+				top:30px;
+			}
+		</style>
+		<script type="text/javascript" src="./js/TweenMax.js"></script>
+		<script>
+
+
+			window.onload = function(){
+				var s = {};
+					s.TweenMax = new TimelineMax();
+
+					s.init = function (){
+						s.TweenMax.to(div2,1,{left:800});
+						s.TweenMax.add("state1");
+						s.TweenMax.to(div2,1,{top:200});
+						s.TweenMax.add("point1");
+						s.TweenMax.stop();
+					};
+
+					s.init();
+				var t = new TimelineMax();			
+				
+
+
+				btn1.onclick = function (){
+					t.add("a");
+					t.to(div1,1,{left:500,ease:"Linear.easeNone"});
+					t.add("b");
+				};
+				btn2.onclick = function (){
+					
+					t.to({space:0},0.1,{space:1,onReverseComplete:function (){
+						s.TweenMax.tweenTo("state1");
+					},onComplete:function (){
+						s.TweenMax.tweenTo("state1");	
+					}})
+				};
+
+				document.onclick = function (){
+
+				};
+			};
+		</script>
+	</head>
+
+	<body>
+		<button id="btn1"> 按钮1</button>
+		<button id="btn2"> 按钮2</button>
+		<button id="btn3"> reverse</button>
+		<div id="div1"></div>
+		<div id="div2"></div>
+	</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			#div1{
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: absolute;
+				left: 0px;
+				top:30px;
+			}
+			#div2{
+				width: 100px;
+				height: 100px;
+				background: blue;
+				position: absolute;
+				left: 0px;
+				top:30px;
+			}
+		</style>
+		<script type="text/javascript" src="./js/TweenMax.js"></script>
+		<script>
+			window.onload = function(){
+				var t = new TimelineMax();
+
+				function myFn(){
+					console.log( 123 );
+				};
+
+				
+				
+
+				btn1.onclick = function (){
+					t.add("a");
+					t.to(div1,1,{left:500,ease:"Linear.easeNone"});
+					t.to(div1,1,{top:500});
+					t.add("b");	
+					t.to(div1,1,{top:0});
+					t.add("d");	
+					t.to(div1,1,{width:200});
+					t.to(div1,1,{height:200});
+
+					//t.timeScale(0.1)  //设置一班时间完成
+				};
+				btn2.onclick = function (){
+					t.tweenTo(3)   //回退到那个时间点
+					/*t.to(div2,10,{top:500,ease:"Linear.easeNone"});
+					t.to(div2,10,{left:500});*/
+					t.add("c");
+				};
+
+				document.onclick = function (){
+					//t.reverse();	 //从最后开始动画
+					//t.pause();	//停止动画
+					//t.resume();   //无效
+					//t.restart();	//从头开始动画
+					var aTime = t.getLabelTime("a");
+					var bTime = t.getLabelTime("b");
+					var cTime = t.getLabelTime("c");
+					/*console.log( t.getLabelTime("a") );  //getLabelTime 返回每个阶段时间
+					console.log( t.getLabelTime("b") );
+					console.log( t.getLabelTime("c") );*/
+
+					// console.log( t.getLabelAfter( aTime ) ); /getLabelAfter 返回下一个阶段，字符串
+					/*console.log( t.getLabelAfter( bTime ) );
+					console.log( t.getLabelAfter( cTime ) );*/
+
+					console.log( t.totalDuration() );
+					console.log( t.time() );  //time获取当前运动的时间
+
+				};
+			};
+		</script>
+	</head>
+
+	<body>
+		<button id="btn1"> 按钮1</button>
+		<button id="btn2"> 按钮2</button>
+		<div id="div1"></div>
+		<div id="div2"></div>
+	</body>
+</html>

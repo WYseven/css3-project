@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			*{padding: 0;margin:0;}
+			.warpper {
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top:0px;
+				bottom: 0px;
+				left: 0px;
+				bottom: 0px;
+				background: red;
+			}
+			body{
+				-webkit-transition: 1s;
+			}
+			.sence {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				left: 0px;
+				right: 0px;
+				background: blue;
+			}
+			.div2{
+				background: green;
+			}
+			.div3{
+				background: yellow;
+			}
+		</style>
+<script type="text/javascript" src="./move.js"></script>
+<script type="text/javascript" src="./TweenMax.js"></script>
+<script>
+function view(){
+	return {
+		H:document.documentElement.clientHeight,
+		W:document.documentElement.clientWidth
+	}
+};
+function scroll_h(){
+	return document.documentElement.scrollTop || document.body.scrollTop;
+}
+function $(selector,content){
+	content = content || document;
+	var tag = selector.charAt(),
+		arr = [],
+		allClassEle = null;
+	if( tag === "#" ){
+		selector = selector.substring(1);
+		return content.getElementById(selector);
+	}else if( tag === "." ){
+		selector = selector.substring(1);	
+		allClassEle = content.getElementsByTagName("*");	// [div,ul,li]
+		var re = new RegExp('\\b'+ selector +'\\b');
+		for( var i = 0; i < allClassEle.length; i++ ){
+			if( re.test( allClassEle[i].className ) ){
+				arr.push(allClassEle[i]);
+			}
+		};
+
+		return arr;
+	}else{
+		return content.getElementsByTagName(selector);
+	}
+};
+function getStyle( obj,attr ){
+	return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj)[attr];	
+}
+function startMove(obj,attr,target,speed,callBack){
+	if( obj.onOff ) return;
+	obj.onOff = true;
+	var val = attr === "scrollTop" ? document.body.scrollTop : parseInt( getStyle(obj,attr) ); //当前位置
+	speed = val < target ?  Math.abs(speed) : -Math.abs(speed);
+	var timer = null;
+	timer = setInterval(function (){
+		//停止的条件
+		if( Math.abs(target - val) <  Math.abs(speed)){
+			val = target;
+			clearInterval( timer );
+			obj.onOff = false;
+			//callBack &&　callBack();
+			if( callBack ) callBack();
+		}else{
+			val = val + speed;
+		}
+		if( attr === "scrollTop" ){
+			document.body.scrollTop = val;
+		}else{
+			obj.style[attr] = val + "px";
+		}
+		
+	},30);	
+}
+window.onload = function(){
+	var aSence = $(".sence");
+
+	tab();
+
+	function tab(){
+		for( var i = 0; i < aSence.length; i++ ){
+			aSence[i].style.height = view().H + "px";
+			if( i !== 0 ) aSence[i].style.top = view().H + "px";
+		};	
+	}
+
+	window.onresize = function (){
+		tab();	
+	};
+	window.onscroll = function (){
+		//console.log( scroll_h() );
+
+		console.log( document.body.scrollTop );
+	};
+	document.onmouseup = function (){
+		if( scroll_h() > 0 && view().H/2 > parseInt( getStyle( $(".div2")[0],"top" ) )){
+			TweenMax.to(document.body, 0.8, {scrollTop:1300, ease:  Linear.easeNone });
+		}else{
+			TweenMax.to(document.body, 0.8, {scrollTop:0, ease:  Linear.easeNone });
+		}	
+	};
+};
+</script>
+	</head>
+	
+	<body style="height: 8500px; overflow-y: scroll;">
+		<div class="warpper">
+			<div class="sence"></div>
+			<div class="sence div2"></div>
+			<div class="sence div3"></div>
+		</div>
+	</body>
+</html>
