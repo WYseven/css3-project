@@ -230,9 +230,31 @@ scene2.config = function (){
 	scene2.timeline.stop();
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 scene2.init = function (){
-	scene2.config();	
+	scene2.config();
+	$(window).bind("scroll",function (){
+		//可是区域的-一半
+		var clientYiban = $(window).height();
+		var eleOffsetY = $(".twoContent").offset().top;  //元素到顶端的距离	
+	})
+
+
 };
+
 
 var scene3 = {}
 scene3.timeline = new TimelineMax();
