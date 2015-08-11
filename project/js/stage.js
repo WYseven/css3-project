@@ -229,21 +229,6 @@ scene2.config = function (){
 
 	scene2.timeline.stop();
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 scene2.init = function (){
 	scene2.config();
 	$(window).bind("scroll",function (){
