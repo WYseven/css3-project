@@ -152,7 +152,7 @@ miaov.changeState = function ( value ){
 		var scroll = miaov.timeScroll.getLabelTime(nextLabel)/ miaov.timeScroll.totalDuration();
 		var duration = Math.abs(  miaov.timeScroll.time() - miaov.timeScroll.getLabelTime(nextLabel) );
 		var positionY = (jQuery("body").height()-jQuery(window).height())*scroll;
-		console.log( duration ,positionY);
+
 		TweenMax.to("html body", duration, { scrollTop:positionY, ease:"linear"} );
 		
 		miaov.currentState = nextLabel;
@@ -176,7 +176,7 @@ miaov.scrollStatus = function (){
 	//每次滚动的距离
 
 	var times = miaov.sacle() * miaov.timeScroll.totalDuration();
-	console.log(times);
+
 	miaov.timeScroll.seek(times, false);//每一次改变时间到达的点
 };
 
@@ -229,12 +229,26 @@ scene2.config = function (){
 
 	scene2.timeline.stop();
 };
+
 scene2.init = function (){
 	scene2.config();
 	$(window).bind("scroll",function (){
 		//可是区域的-一半
 		var clientYiban = $(window).height();
-		var eleOffsetY = $(".twoContent").offset().top;  //元素到顶端的距离	
+		var eleOffsetY = $(".twoContent").offset().top;  //元素到顶端的距离
+        var offsetTop = $(window).scrollTop();
+        /*
+        * 如果当前元素到页面顶部的距离，小于可视区域-可视区域的一半，就说明当前元素要向上滚动
+        * */
+
+        console.log(  eleOffsetY , offsetTop, clientYiban  );
+        if( true  ){
+
+            //console.log( 123 );
+            scene2.timeline.timeScale(1);
+            scene2.timeline.seek(0, false);
+            scene2.timeline.tweenTo("state1");
+        }
 	})
 
 
