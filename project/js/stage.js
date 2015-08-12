@@ -6,6 +6,7 @@ miaov.timeScroll = null;
 
 miaov.dic = "next";
 
+
 miaov.init = function (){
 
 	miaov.configTimeInit();
