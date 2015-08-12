@@ -4,6 +4,8 @@ miaov.timeInit = null;
 miaov.currentState = "scene1";
 miaov.timeScroll = null;
 
+miaov.dic = "next";
+
 miaov.init = function (){
 
 	miaov.configTimeInit();
@@ -17,6 +19,8 @@ miaov.init = function (){
 	miaov.configTimeScroll();
 
 	miaov.events();
+
+	$(window).scrollTop(0);
 };
 $(document).ready( miaov.init );
 
@@ -135,8 +139,10 @@ miaov.events = function (){
 	function onMouseWheel(ev,direction){
 		if( direction >= 1 ){
 			miaov.changeState("prev");
+			miaov.dic = "prev"
 		}else{
 			miaov.changeState("next");
+			miaov.dic = "next";
 		};
 
 		TweenMax.delayedCall( 1.2, function(){ $(window).one("mousewheel",onMouseWheel); } );
@@ -152,7 +158,7 @@ miaov.changeState = function ( value ){
 		var scroll = miaov.timeScroll.getLabelTime(nextLabel)/ miaov.timeScroll.totalDuration();
 		var duration = Math.abs(  miaov.timeScroll.time() - miaov.timeScroll.getLabelTime(nextLabel) );
 		var positionY = (jQuery("body").height()-jQuery(window).height())*scroll;
-
+		
 		TweenMax.to("html body", duration, { scrollTop:positionY, ease:"linear"} );
 		
 		miaov.currentState = nextLabel;
@@ -176,7 +182,7 @@ miaov.scrollStatus = function (){
 	//每次滚动的距离
 
 	var times = miaov.sacle() * miaov.timeScroll.totalDuration();
-
+	
 	miaov.timeScroll.seek(times, false);//每一次改变时间到达的点
 };
 
@@ -201,10 +207,14 @@ miaov.resize = function (){
 var scene2 = {}
 scene2.timeline = new TimelineMax();
 
+scene2.onOff = true;
+
 scene2.config = function (){
 
 
-	scene2.timeline.to(".step2_1 img", 0.4, { alpha:1, rotationX:0, ease:Cubic.easeOut}, 0.1 );
+	scene2.timeline.to(".step2_1 img", 0.4, { alpha:1, rotationX:0, ease:Cubic.easeOut,onComplete:function (){
+		scene2.onOff = false;
+	}}, 0.5 );
 	//scene2.timeline.staggerTo(".step2_1 img", 0.4, { alpha:1, rotationX:0, ease:Cubic.easeOut}, 0.1 );
 	scene2.timeline.add("state1");
 	scene2.timeline.staggerTo(".step2_1 img", 0.2, { alpha:0, rotationX:90, ease:Cubic.easeIn}, 0 );
@@ -232,23 +242,36 @@ scene2.config = function (){
 
 scene2.init = function (){
 	scene2.config();
+
 	$(window).bind("scroll",function (){
 		//可是区域的-一半
-		var clientYiban = $(window).height();
-		var eleOffsetY = $(".twoContent").offset().top;  //元素到顶端的距离
-        var offsetTop = $(window).scrollTop();
-        /*
-        * 如果当前元素到页面顶部的距离，小于可视区域-可视区域的一半，就说明当前元素要向上滚动
-        * */
+		var clientYiban = $(window).height()*0.5;
 
-        console.log(  eleOffsetY , offsetTop, clientYiban  );
-        if( true  ){
+		var eleOffsetY = $(".twoContent").offset().top;  //元素到顶端的距离	
+		var eleHeight = $(".twoContent").height();
 
-            //console.log( 123 );
-            scene2.timeline.timeScale(1);
-            scene2.timeline.seek(0, false);
-            scene2.timeline.tweenTo("state1");
-        }
+		var clientH = $(window).height(); //可视区域的高度
+
+		var scrollTop = $(window).scrollTop();
+
+		if( eleOffsetY < scrollTop+clientYiban && scene2.onOff){
+			scene2.timeline.timeScale(1);
+			scene2.timeline.seek(0, false);
+			scene2.timeline.tweenTo("state1");
+		};
+
+		if( eleOffsetY > scrollTop+clientYiban && miaov.dic === "prev"){
+			scene2.timeline.timeScale(100);
+			scene2.timeline.tweenTo(0);
+			scene2.onOff = true;
+		};
+
+
+
+		//console.log( eleOffsetY,scrollTop, clientYiban);
+
+		//if( eleOffsetY  )
+
 	})
 
 
@@ -258,12 +281,16 @@ scene2.init = function (){
 var scene3 = {}
 scene3.timeline = new TimelineMax();
 
+scene3.onOff = true;
+
 scene3.config = function (){
 
 	scene3.timeline.to(".threeContent .step img", 0, {rotationX:-90, alpha:0, transformPerspective:600, transformOrigin:"center center" });
-	scene3.timeline.to(".step3_2 img", 0, {y:50});
+	//scene3.timeline.to(".step3_2 img", 0, {y:50});
 	// state1
-	scene3.timeline.staggerTo(".step3_2 img", 0.4, { alpha:1, rotationX:0, y:0, ease:Cubic.easeInOut}, 0.1 );
+	scene3.timeline.staggerTo(".step3_1 img", 0.4, { alpha:1, rotationX:0, y:0, ease:Cubic.easeInOut,onComplete:function (){
+		scene3.onOff = false;
+	}}, 0.2 );
 	scene3.timeline.add("state1");
 	// state2
 	scene3.timeline.to(".step3_1 img", 0.3, { alpha:0, rotationX:90, ease:Cubic.easeIn});
@@ -273,7 +300,33 @@ scene3.config = function (){
 };
 
 scene3.init = function (){
-	scene3.config();	
+	scene3.config();
+	$(window).bind("scroll",function (){
+		//可是区域的-一半
+		var clientYiban = $(window).height()*0.5;
+
+		var eleOffsetY = $(".threeContent").offset().top;  //元素到顶端的距离	
+		var eleHeight = $(".threeContent").height();
+
+		var clientH = $(window).height(); //可视区域的高度
+
+		var scrollTop = $(window).scrollTop();
+
+		console.log( eleOffsetY < scrollTop+clientYiban );
+		
+		if( eleOffsetY < scrollTop+clientYiban && scene3.onOff){
+			scene3.timeline.timeScale(1);
+			scene3.timeline.seek(0, false);
+			scene3.timeline.tweenTo("state1");
+		};
+
+		if( eleOffsetY > scrollTop+clientYiban && miaov.dic === "prev"){
+			scene3.timeline.timeScale(100);
+			scene3.timeline.tweenTo(0);
+			scene3.onOff = true;
+		};
+
+	})	
 };
 
 
