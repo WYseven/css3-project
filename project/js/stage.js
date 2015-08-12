@@ -35,7 +35,7 @@ miaov.configTimeScroll = function (){
 	if(miaov.timeScroll) miaov.timeScroll.clear();
     miaov.timeScroll = new TimelineMax();
         miaov.timeScroll.add("scene1");
-
+	miaov.timeScroll.to(".footer", 0, {top:"100%" });
     miaov.timeScroll.to(".main .twoContent",0.8,{top:0,ease:Cubic.easeInOut });
     miaov.timeScroll.to({ban:0},0.1, {ban:1, onReverseComplete:function(){ menu.changeMenu('state1'); } , onComplete:function(){ menu.changeMenu('state2'); } }, "-=0.2");
 
@@ -59,7 +59,18 @@ miaov.configTimeScroll = function (){
 		miaov.timeScroll.add("scene3_2");
     	
     miaov.timeScroll.to(".main .fourContent",0.8,{top:0,ease:Cubic.easeInOut });
+    	miaov.timeScroll.add("fiveContent");
+    miaov.timeScroll.to(".main .fiveContent",0.8,{top:0,ease:Cubic.easeInOut });
+    miaov.timeScroll.to(".main .fourContent",0.8,{top:-$(window).height(),ease:Cubic.easeInOut },"=-0.8");
+    miaov.timeScroll.to(".menu_wrapper",0.8,{top:-110,ease:Cubic.easeInOut },"=-0.8");
     	miaov.timeScroll.add("scene4");
+
+    miaov.timeScroll.to(".main .fiveContent",0.5,{top:-$(".footer").outerHeight(),ease:Cubic.easeInOut });
+    miaov.timeScroll.to(".main .footer",0.5,{top:$(window).height()-$(".footer").outerHeight(),ease:Cubic.easeInOut },"-=0.5");
+
+
+
+    	miaov.timeScroll.add("footer");
 
     miaov.timeScroll.stop();
 
@@ -116,7 +127,7 @@ miaov.events = function (){
 			
 				if(!prev_label) prev_label = "scene1";
 			var next_label = miaov.timeScroll.getLabelAfter( current_time );
-            	if(next_label == null) next_label = "scene4";
+            	if(next_label == null) next_label = "footer";
 
             	var prev_label_time = Math.abs(miaov.timeScroll.getLabelTime(miaov.timeScroll.getLabelBefore( current_time )) - current_time);
                 var next_label_time = Math.abs(miaov.timeScroll.getLabelTime(miaov.timeScroll.getLabelAfter( current_time )) - current_time);
@@ -124,7 +135,7 @@ miaov.events = function (){
                     miaov.currentState = "scene1";
                     miaov.gotoLabel(miaov.currentState);
                 }else if(scroll == 1){
-                    miaov.currentState = "scene4";
+                    miaov.currentState = "footer";
                     miaov.gotoLabel(miaov.currentState);
                 }else if(prev_label_time < next_label_time){
                     miaov.gotoLabel(prev_label);
