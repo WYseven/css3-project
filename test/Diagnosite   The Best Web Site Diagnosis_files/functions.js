@@ -157,7 +157,7 @@ Stage.currentState = "scene1";
         var time = (Stage.timeScroll) ? Stage.timeScroll.time() : 0;
         cuppa.moveContent(".wrapper", ".wrapper", false, true, 0, 0);
         if(Stage.timeScroll) Stage.timeScroll.clear();
-        Stage.timeScroll = new TimelineMax();
+        Stage.timeScroll = new TimelineMax();1
             Stage.timeScroll.add("scene1");
         Stage.timeScroll.to(".scene1", 0, {top:0, position:"absolute", left:0, right:0, height: $(window).height() });
         Stage.timeScroll.to(".scene2, .scene3, .instructions, .scene4", 0, {position:"absolute", right:0,top:$(window).height(), left:0, height: $(window).height() } );
