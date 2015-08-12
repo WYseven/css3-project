@@ -193,18 +193,24 @@ window.onload = function (){
 	oImg.line = new TimelineMax();
 	oImg.config = function (){
 		
-		oImg.line.to("#div3 img",0,{rotationX:-90});
+		oImg.line.to("#div3 img",0,{rotationX:90});
 		//oImg.line.staggerTo("#div3 img",0,{rotationX:-90});
-
-		oImg.line.add("state1");
 
 		oImg.line.staggerTo("#op1 img",0.5,{alpha:1,rotationX:0});
 
+		oImg.line.add("state1");
+
+		oImg.line.staggerTo("#op1 img",0.2,{alpha:0,rotationX:-90},0);
+
+		oImg.line.to("#op2 img",0,{rotationX:90},"-=0.1");
+
+		oImg.line.staggerTo("#op2 img",0.5,{rotationX:0},"-=0.1");
+
 		oImg.line.add("point1");
 
-		oImg.line.staggerTo("#op1 img",0,{alpha:0,rotationX:-90},0);
-
-		oImg.line.staggerTo("#op2 img",0.5,{rotationX:0});
+		
+		
+		
 
 		oImg.line.add("point2");
 

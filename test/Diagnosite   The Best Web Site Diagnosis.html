@@ -62,13 +62,13 @@
             </script>
         <!-- GA -->
             <script>
-               /* (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
                 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
                 
                 ga('create', 'UA-57083221-1', 'auto');
-                ga('send', 'pageview');*/
+                ga('send', 'pageview');
             </script>
         <!-- -->
     <style type="text/css">#yddContainer{display:block;font-family:Microsoft YaHei;position:relative;width:100%;height:100%;top:-4px;left:-4px;font-size:12px;border:1px solid}#yddTop{display:block;height:22px}#yddTopBorderlr{display:block;position:static;height:17px;padding:2px 28px;line-height:17px;font-size:12px;color:#5079bb;font-weight:bold;border-style:none solid;border-width:1px}#yddTopBorderlr .ydd-sp{position:absolute;top:2px;height:0;overflow:hidden}.ydd-icon{left:5px;width:17px;padding:0px 0px 0px 0px;padding-top:17px;background-position:-16px -44px}.ydd-close{right:5px;width:16px;padding-top:16px;background-position:left -44px}#yddKeyTitle{float:left;text-decoration:none}#yddMiddle{display:block;margin-bottom:10px}.ydd-tabs{display:block;margin:5px 0;padding:0 5px;height:18px;border-bottom:1px solid}.ydd-tab{display:block;float:left;height:18px;margin:0 5px -1px 0;padding:0 4px;line-height:18px;border:1px solid;border-bottom:none}.ydd-trans-container{display:block;line-height:160%}.ydd-trans-container a{text-decoration:none;}#yddBottom{position:absolute;bottom:0;left:0;width:100%;height:22px;line-height:22px;overflow:hidden;background-position:left -22px}.ydd-padding010{padding:0 10px}#yddWrapper{color:#252525;z-index:10001;background:url(chrome-extension://eopjamdnofihpioajgfdikhhbobonhbb/ab20.png);}#yddContainer{background:#fff;border-color:#4b7598}#yddTopBorderlr{border-color:#f0f8fc}#yddWrapper .ydd-sp{background-image:url(chrome-extension://eopjamdnofihpioajgfdikhhbobonhbb/ydd-sprite.png)}#yddWrapper a,#yddWrapper a:hover,#yddWrapper a:visited{color:#50799b}#yddWrapper .ydd-tabs{color:#959595}.ydd-tabs,.ydd-tab{background:#fff;border-color:#d5e7f3}#yddBottom{color:#363636}#yddWrapper{min-width:250px;max-width:400px;}</style></head>
@@ -133,7 +133,7 @@
     }
 </style>
 <script>
-    /*scene1 = {}
+    scene1 = {}
     //++ resize
         scene1.resize = function(){
             
@@ -148,10 +148,10 @@
         scene1.init = function(){
             cuppa.addEventListener("resize", scene1.resize, window, "scene1"); scene1.resize();
             cuppa.responsiveImagesWidth(".scene1_1 img");
-        }; cuppa.addEventListener("ready",  scene1.init, document, "scene1");*/
+        }; cuppa.addEventListener("ready",  scene1.init, document, "scene1");
     //--
 </script>
-<div class="scene1 scene" style="height: 181px; right: 0px; left: 0px; position: absolute; top: 0px;">
+<div class="scene1 scene" style="height: 599px; right: 0px; left: 0px; position: absolute; top: 0px;">
     <div class="middle_box"></div>
     <img class="light" src="./Diagnosite   The Best Web Site Diagnosis_files/ligth_green.png">
     <img class="logo" src="./Diagnosite   The Best Web Site Diagnosis_files/logo_scene1.png" style="opacity: 1;">
@@ -228,7 +228,7 @@
             margin: 10px auto 0px;
             width: 20px;
             height: 22px;
-            background-image: url("./Diagnosite   The Best Web Site Diagnosis_files/point.png");
+            background-image: url("administrator/media/page/template/point.png");
             background-position: left top;
             cursor: pointer;
         }
@@ -343,7 +343,6 @@
     //--
     //++ onScreen
         scene2.onScreen = function(element, value){
-            console.log( "value:" + value );
             if(value){ 
                 scene2.timeline.timeScale(1);
                 scene2.timeline.seek(0, false);
@@ -367,31 +366,29 @@
     //++ init
         scene2.init = function(){
             scene2.config();
-            /*cuppa.addEventListener("resize", scene2.resize, window, "scene2"); 
-            scene2.resize();*/
+            cuppa.addEventListener("resize", scene2.resize, window, "scene2"); scene2.resize();
             cuppa.responsiveImagesWidth(".scene2 img");
             cuppa.visualitationElementHandler(".scene2", "body", scene2.onScreen, false, $(window).height()*0.5);
-        }; 
-        cuppa.addEventListener("ready",  scene2.init, document, "scene2");
+        }; cuppa.addEventListener("ready",  scene2.init, document, "scene2");
     //--
 </script>
-<div class="scene2 scene" style="height: 181px; left: 0px; top: 0px; right: 0px; position: absolute;">
+<div class="scene2 scene" style="height: 599px; left: 0px; top: 599px; right: 0px; position: absolute;">
     <div class="middle_box"></div>
     <img class="light" src="./Diagnosite   The Best Web Site Diagnosis_files/ligth_purple.png" style="width: 100%; max-width: 1569px; height: auto;">
     <div class="step">
         <div class="scene2_1 center_align_1">
             <div class="center_align_2">
-                <p style="text-align: center;"><img src="./Diagnosite   The Best Web Site Diagnosis_files/scene2_1_1408626313.png" alt="" style="transform-origin: center center 0px; opacity: 0; transform: matrix3d(1, 0, 0, 0, 0, 0, 1, -0.00166, 0, -1, 0, 0, 0, 0, 0, 1); width: 100%; max-width: 52px; height: auto;"><br><img src="./Diagnosite   The Best Web Site Diagnosis_files/Scena2_text1_en.png" alt="" style="transform-origin: center center 0px; opacity: 0; transform: matrix3d(1, 0, 0, 0, 0, 0, 1, -0.00166, 0, -1, 0, 0, 0, 0, 0, 1); width: 100%; max-width: 289px; height: auto;"><br><img style="margin-top: 10px; transform-origin: center center 0px; opacity: 0; transform: matrix3d(1, 0, 0, 0, 0, 0, 1, -0.00166, 0, -1, 0, 0, 0, 0, 0, 1); width: 100%; max-width: 656px; height: auto;" src="./Diagnosite   The Best Web Site Diagnosis_files/text_scene2_22.png" alt=""><br><img style="margin-top: 10px; transform-origin: center center 0px; opacity: 0; transform: matrix3d(1, 0, 0, 0, 0, 0, 1, -0.00166, 0, -1, 0, 0, 0, 0, 0, 1); width: 100%; max-width: 595px; height: auto;" src="./Diagnosite   The Best Web Site Diagnosis_files/Scena2_text3_en.png" alt=""></p>            </div>
+                <p style="text-align: center;"><img src="./Diagnosite   The Best Web Site Diagnosis_files/scene2_1_1408626313.png" alt="" style="transform-origin: center center 0px; opacity: 0; transform: matrix3d(1, 0, 0, 0, 0, 0, -1, 0.00166, 0, 1, 0, 0, 0, 0, 0, 1); width: 100%; max-width: 52px; height: auto;"><br><img src="./Diagnosite   The Best Web Site Diagnosis_files/Scena2_text1_en.png" alt="" style="transform-origin: center center 0px; opacity: 0; transform: matrix3d(1, 0, 0, 0, 0, 0, -1, 0.00166, 0, 1, 0, 0, 0, 0, 0, 1); width: 100%; max-width: 289px; height: auto;"><br><img style="margin-top: 10px; transform-origin: center center 0px; opacity: 0; transform: matrix3d(1, 0, 0, 0, 0, 0, -1, 0.00166, 0, 1, 0, 0, 0, 0, 0, 1); width: 100%; max-width: 656px; height: auto;" src="./Diagnosite   The Best Web Site Diagnosis_files/text_scene2_22.png" alt=""><br><img style="margin-top: 10px; transform-origin: center center 0px; opacity: 0; transform: matrix3d(1, 0, 0, 0, 0, 0, -1, 0.00166, 0, 1, 0, 0, 0, 0, 0, 1); width: 100%; max-width: 595px; height: auto;" src="./Diagnosite   The Best Web Site Diagnosis_files/Scena2_text3_en.png" alt=""></p>            </div>
         </div>
     </div>
     <div class="step">
         <div class="inner_limits">
             <div class="scene2_2 center_align_1">
-                <div class="center_align_2 left" style="opacity: 1;">
+                <div class="center_align_2 left" style="opacity: 0;">
                     <img class="img_2_2_1" width="397" src="./Diagnosite   The Best Web Site Diagnosis_files/gif1.gif" style="width: 100%; max-width: 397px; height: auto;">
                 </div>
                 <div class="center_align_2 right">
-                    <p style="text-align: center;"><img src="./Diagnosite   The Best Web Site Diagnosis_files/results1_symthoms.png" alt="" style="transform-origin: center center 0px; transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, -0.00166, 0, 0, 0, 1); width: 100%; max-width: 393px; height: auto; opacity: 1;"><br><img style="margin-top: 15px; transform-origin: center center 0px; transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, -0.00166, 0, 0, 0, 1); width: 100%; max-width: 462px; height: auto; opacity: 1;" src="./Diagnosite   The Best Web Site Diagnosis_files/results_sinto2a_en.png" alt=""><br><img style="margin-top: 40px; transform-origin: center center 0px; transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, -0.00166, 0, 0, 0, 1); width: 100%; max-width: 415px; height: auto; opacity: 1;" src="./Diagnosite   The Best Web Site Diagnosis_files/results3_symthoms.png" alt=""></p>                </div>
+                    <p style="text-align: center;"><img src="./Diagnosite   The Best Web Site Diagnosis_files/results1_symthoms.png" alt="" style="transform-origin: center center 0px; transform: matrix3d(1, 0, 0, 0, 0, 0, -1, 0.00166, 0, 1, 0, 0, 0, 0, 0, 1); width: 100%; max-width: 393px; height: auto;"><br><img style="margin-top: 15px; transform-origin: center center 0px; transform: matrix3d(1, 0, 0, 0, 0, 0, -1, 0.00166, 0, 1, 0, 0, 0, 0, 0, 1); width: 100%; max-width: 462px; height: auto;" src="./Diagnosite   The Best Web Site Diagnosis_files/results_sinto2a_en.png" alt=""><br><img style="margin-top: 40px; transform-origin: center center 0px; transform: matrix3d(1, 0, 0, 0, 0, 0, -1, 0.00166, 0, 1, 0, 0, 0, 0, 0, 1); width: 100%; max-width: 415px; height: auto;" src="./Diagnosite   The Best Web Site Diagnosis_files/results3_symthoms.png" alt=""></p>                </div>
             </div>
         </div>
     </div>
@@ -417,12 +414,12 @@
             </div>
         </div>
     </div>
-    <div class="points" style="display: block; opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);">
+    <div class="points" style="display: none; opacity: 0; transform: matrix(1, 0, 0, 1, 0, 200);">
         <div class="point point0" onclick="scene2.timeline.tweenTo(&#39;state1&#39;); Stage.currentState = &#39;scene2&#39;;">
             <div class="text">Symptoms?</div>
             <div class="point_icon"></div>
         </div>
-        <div class="point point1 selected" onclick="scene2.timeline.tweenTo(&#39;point1&#39;); Stage.currentState = &#39;point1&#39;;">
+        <div class="point point1" onclick="scene2.timeline.tweenTo(&#39;point1&#39;); Stage.currentState = &#39;point1&#39;;">
             <div class="text">No Results</div>
             <div class="point_icon"></div>
         </div>
@@ -522,19 +519,19 @@
         }; cuppa.addEventListener("ready",  scene3.init, document, "scene3");
     //--
 </script>
-<div class="scene3 scene" style="height: 181px; left: 0px; top: 0px; right: 0px; position: absolute;">
+<div class="scene3 scene" style="height: 599px; left: 0px; top: 599px; right: 0px; position: absolute;">
     <div class="middle_box"></div>
     <img class="light" src="./Diagnosite   The Best Web Site Diagnosis_files/ligth_orange.png" style="width: 100%; max-width: 1569px; height: auto;">
     <div class="step step1">
         <div class="center_align_1">
             <div class="center_align_2">
-                <p style="text-align: center;"><img src="./Diagnosite   The Best Web Site Diagnosis_files/focusing.png" alt="" style="opacity: 0; transform-origin: center center 0px; transform: matrix3d(1, 0, 0, 0, 0, 0, 1, -0.00166, 0, -1, 0, 0, 0, 0, 0, 1); width: 100%; max-width: 403px; height: auto;"><br><img style="margin-top: 15px; opacity: 0; transform-origin: center center 0px; transform: matrix3d(1, 0, 0, 0, 0, 0, 1, -0.00166, 0, -1, 0, 0, 0, 0, 0, 1); width: 100%; max-width: 736px; height: auto;" src="./Diagnosite   The Best Web Site Diagnosis_files/text2_orange1.png" alt=""><br><img style="margin-top: 20px; opacity: 0; transform-origin: center center 0px; transform: matrix3d(1, 0, 0, 0, 0, 0, 1, -0.00166, 0, -1, 0, 0, 0, 0, 0, 1); width: 100%; max-width: 801px; height: auto;" src="./Diagnosite   The Best Web Site Diagnosis_files/text3_orange1.png" alt=""></p>            </div>
+                <p style="text-align: center;"><img src="./Diagnosite   The Best Web Site Diagnosis_files/focusing.png" alt="" style="opacity: 0; transform-origin: center center 0px; transform: matrix3d(1, 0, 0, 0, 0, 0, -1, 0.00166, 0, 1, 0, 0, 0, 50, 0, 1); width: 100%; max-width: 403px; height: auto;"><br><img style="margin-top: 15px; opacity: 0; transform-origin: center center 0px; transform: matrix3d(1, 0, 0, 0, 0, 0, -1, 0.00166, 0, 1, 0, 0, 0, 50, 0, 1); width: 100%; max-width: 736px; height: auto;" src="./Diagnosite   The Best Web Site Diagnosis_files/text2_orange1.png" alt=""><br><img style="margin-top: 20px; opacity: 0; transform-origin: center center 0px; transform: matrix3d(1, 0, 0, 0, 0, 0, -1, 0.00166, 0, 1, 0, 0, 0, 50, 0, 1); width: 100%; max-width: 801px; height: auto;" src="./Diagnosite   The Best Web Site Diagnosis_files/text3_orange1.png" alt=""></p>            </div>
         </div>
     </div>
     <div class="step step2">
         <div class="center_align_1">
             <div class="center_align_2">
-                <p style="text-align: center;"><img src="./Diagnosite   The Best Web Site Diagnosis_files/icons_full.png" alt="" style="opacity: 1; transform-origin: center center 0px; transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, -0.00166, 0, 0, 0, 1); width: 100%; max-width: 988px; height: auto;"><br><img style="margin-top: 32px; padding-left: 10px; opacity: 1; transform-origin: center center 0px; transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, -0.00166, 0, 0, 0, 1); width: 100%; max-width: 988px; height: auto;" src="./Diagnosite   The Best Web Site Diagnosis_files/text2_orange2.png" alt=""><br><img style="margin-top: 15px; opacity: 1; transform-origin: center center 0px; transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, -0.00166, 0, 0, 0, 1); width: 100%; max-width: 988px; height: auto;" src="./Diagnosite   The Best Web Site Diagnosis_files/text3_orange2.png" alt=""></p>            </div>
+                <p style="text-align: center;"><img src="./Diagnosite   The Best Web Site Diagnosis_files/icons_full.png" alt="" style="opacity: 0; transform-origin: center center 0px; transform: matrix3d(1, 0, 0, 0, 0, 0, -1, 0.00166, 0, 1, 0, 0, 0, 0, 0, 1); width: 100%; max-width: 988px; height: auto;"><br><img style="margin-top: 32px; padding-left: 10px; opacity: 0; transform-origin: center center 0px; transform: matrix3d(1, 0, 0, 0, 0, 0, -1, 0.00166, 0, 1, 0, 0, 0, 0, 0, 1); width: 100%; max-width: 988px; height: auto;" src="./Diagnosite   The Best Web Site Diagnosis_files/text2_orange2.png" alt=""><br><img style="margin-top: 15px; opacity: 0; transform-origin: center center 0px; transform: matrix3d(1, 0, 0, 0, 0, 0, -1, 0.00166, 0, 1, 0, 0, 0, 0, 0, 1); width: 100%; max-width: 988px; height: auto;" src="./Diagnosite   The Best Web Site Diagnosis_files/text3_orange2.png" alt=""></p>            </div>
         </div>
     </div>
 </div><style>
@@ -616,7 +613,7 @@
         }; cuppa.addEventListener("ready",  instructions.init, document, "instructions");
     //--
 </script>
-<div class="instructions scene" style="height: 181px; left: 0px; top: 0px; right: 0px; position: absolute;">
+<div class="instructions scene" style="height: 599px; left: 0px; top: 599px; right: 0px; position: absolute;">
             <div class="item" style="opacity: 1; transform-origin: center 50% 0px; transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, -0.00166, 0, 0, 0, 1);">
             <div class="center_align_1">
                 <div class="center_align_2">
@@ -771,10 +768,10 @@
             cuppa.button3D(".scene4 .button1", ".state1", ".state2", 0.4, "vertical");
             cuppa.button3D(".scene4 .button2", ".state1", ".state2", 0.4, "vertical");
             cuppa.visualitationElementHandler(".scene4", "body", scene4.onScreen, false, $(window).height()*0.5 );
-        }; cuppa.addEventListener("ready", scene4.init, document, "scene4");
+        }; cuppa.addEventListener("ready",  scene4.init, document, "scene4");
     //--
 </script>
-<div class="scene4 scene" style="height: 181px; left: 0px; top: 181px; right: 0px; position: absolute;">
+<div class="scene4 scene" style="height: 599px; left: 0px; top: 599px; right: 0px; position: absolute;">
     <div class="middle_box"></div>
     <img class="light" src="./Diagnosite   The Best Web Site Diagnosis_files/ligth_green.png">
     <img class="stethoscope_down" src="./Diagnosite   The Best Web Site Diagnosis_files/scene4_1.png" style="top: -220px;">
@@ -1242,7 +1239,7 @@
                 timeline.to(item_to_remove, 0.3, {alpha:1, rotationX:90, y:-jQuery(item_to_remove).height(),  ease:Cubic.easeInOut } )
                 timeline.to(item, 0.3, {rotationX:0, y:-jQuery(item_to_remove).height(), ease:Cubic.easeInOut }, "-=0.3" );
                 
-                /*var os = new cuppa.browser();
+                var os = new cuppa.browser();
                 if(os.code == "sf"){
                     timeline.to({ban:0}, 0, {ban:1, onComplete:function(){
                         $(".menu").css("transform","none");
@@ -1262,7 +1259,7 @@
                 })
                 $(".menu .language").unbind("mouseleave").bind("mouseleave", function(e){
                     TweenMax.to(".menu .language .dropdown", 0.3, {alpha:0, display:"none"});
-                })*/
+                })
             //--
         }
     //--
@@ -1338,21 +1335,20 @@
     //--
 </script>
 <div class="menu_wrapper" style="top: 0px;">
-    
-<div class="menu state2" style="left: 29px; overflow: hidden; opacity: 0.993445798833819; top: 100px; transform-origin: center top 0px; transform: matrix3d(1, 0, 0, 0, 0, 0.99997, 0, 0, 0, 0, 0.99997, -0.00166, 0, -78, 0, 1);">
+    <div class="menu" style="left: 20px; overflow: visible; opacity: 1;">
         <div class="content">
             <a class="logo" href=""></a>
-            <div class="line" style="opacity: 0; width: 0px; transform: matrix(1, 0, 0, 1, -21, 0);"></div>
-            <div class="buttons" style="display: none; opacity: 0;">
+            <div class="line" style="opacity: 0;"></div>
+            <div class="buttons" style="display: block; opacity: 1;">
                 <a id="0" class="item link" href="http://diagnosite.com/en/about"><span>About</span></a>
                 <a id="1" class="item link" href="http://diagnosite.com/en/the-team"><span>The team</span></a>
                 <a id="2" class="item link" href="http://diagnosite.com/en/results"><span>Results</span></a>
             </div>
             <div class="language">
                 <div class="select"><span>en</span></div>
-                <div class="dropdown" style="display: none; opacity: 0;">
-                                            <a class="item" href="http://diagnosite.com/en" style="opacity: 1;"><span>en</span></a>
-                                            <a class="item" href="http://diagnosite.com/es" style="opacity: 1;"><span>es</span></a>
+                <div class="dropdown">
+                                            <a class="item" href="http://diagnosite.com/en"><span>en</span></a>
+                                            <a class="item" href="http://diagnosite.com/es"><span>es</span></a>
                                     </div>
             </div>
         </div>
@@ -1362,7 +1358,8 @@
             <div class="state state2" style="transform-origin: center top 0px; transform: matrix3d(1, 0, 0, 0, 0, 0, -1, 0.00166, 0, 1, 0, 0, 0, 0, 0, 1);"><span>Start diagnosis for $100</span></div>
         </a>
         <div class="btn_mobile" onclick="menu_mobile.show()"></div>
-    </div></div><style>
+    </div>
+</div><style>
     .menu_mobile{
         position: fixed;
         top: 0px;

@@ -214,36 +214,30 @@
     auto_check_time: set the time, if the normal preload don't trigger, auto_check_time ensures that the event is trigger"
 */  
     cuppa.loader = function(finishDelay, target, auto_check_time){
-        console.log( finishDelay, target, auto_check_time );
-        // 0.5 ".wrapper" 10
         var timer = null;
         if(!finishDelay) finishDelay = 200; else finishDelay = finishDelay*1000;
         if(auto_check_time) auto_check_time = auto_check_time*1000;
         if(!target) target = "body";
         var items = jQuery(target).find("img").get();
-        console.log( finishDelay, target, auto_check_time );
         //++ Add backgroun-images
             var background_images = jQuery(target).find("*");
             for(var i = 0; i < background_images.length; i++){
                 if(!jQuery(background_images[i]).is("img")  ){
                     var url = jQuery(background_images[i]).css("background-image");
-                   // console.log( url );
                         url = cuppa.replace(url, "url(", "");
                         url = cuppa.replace(url, "(", "");
                         url = cuppa.replace(url, ")", "");
                         url = cuppa.replace(url, '"', "");
                         url = cuppa.replace(url, "none", "");
-                        url = cuppa.trim(url);
-                      //  console.log( "url:>>>>"+url);    
-                        if(url){ 
+                        url = cuppa.trim(url);    
+                        if(url){
                             var image=document.createElement("img");
                                 image.src = url;
                             items.push(image);
                         }
                 }
             }
-            console.log( items );
-        //--
+        //--  
         var totalItems = 0;
         for(var i = 0; i < items.length; i++){ if(jQuery.trim(jQuery(items[i]).attr("src"))) totalItems++; }                        
         if(!totalItems){ jQuery(target).trigger("complete"); return; };
@@ -689,9 +683,6 @@
         return this;
     };
 // moveContent
-
-//cuppa.moveContent("body","body", false, true, 0, scroll, duration, Linear.easeNone, true);
-
 // Example: cuppa.moveContent(".content .list", ".content", false, true, 0, 0.5, 700, "linear", true);
 	cuppa.moveContent = function(target, area, moveScrollX, moveScrollY, positionX, positionY, duration, ease, value_in_porcent, only_return_data){       
         positionX = String(positionX); positionY = String(positionY);
@@ -703,7 +694,6 @@
         if(!ease) ease = "linear";
 		if(!target) target = document;
         if(area == "body") area = "";
-     
         if(!area && !value_in_porcent){ 
             area = "html, body";
             if(value_in_porcent && moveScrollX){ positionX = (jQuery(target).width()-jQuery(area).width())*positionX; }
@@ -722,24 +712,22 @@
         };
         var data = {x:positionX, y:positionY }
         if(only_return_data) return data;
-       
+        
         jQuery(area).stop(positionY);
         if(moveScrollX && moveScrollY){
             TweenMax.to(area, duration, { scrollLeft:positionX, scrollTop:positionY, ease:ease, onUpdate:onProgress } );
         }else if(moveScrollX){
             TweenMax.to(area, duration, { scrollTop:positionX, ease:ease, onUpdate:onProgress } );
         }else if(moveScrollY){
-           
-            TweenMax.to(area, duration, { scrollTop:positionY, ease:ease} );
+            TweenMax.to(area, duration, { scrollTop:positionY, ease:ease, onUpdate:onProgress } );
         }
         
         function onProgress(){
-            /*var percent = cuppa.statusScrollPorcent(area);
+            var percent = cuppa.statusScrollPorcent(area);
             if(moveScrollY && !percent.y) return;
             if(moveScrollX && !percent.x) return;
-           // jQuery(target).trigger("progress_content", [percent]);
-            console.log(area);
-            //jQuery(area).trigger("progress_content", [percent, target]);*/
+            jQuery(target).trigger("progress_content", [percent]);
+            jQuery(area).trigger("progress_content", [percent, target]);
         }
         return data;
 	};

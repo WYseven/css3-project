@@ -111,7 +111,7 @@
                 value.height += (isNaN( parseFloat( jQuery(element).css("border-bottom-width") ) )) ? 0 :  parseFloat( jQuery(element).css("border-bottom-width") );
                 value.x = jQuery(element).offset().left; 
                 value.y = jQuery(element).offset().top;
-                value.x2 = jQuery(element).position().left;
+                value.x2 = jQuery(element).position().left; 
                 value.y2 = jQuery(element).position().top;
                 if(inner_dimentions){
                     var temp_element = jQuery(element).clone().css({left:0, top:0, visibility:"hidden", display:"block", height:"auto", position:"absolute"});

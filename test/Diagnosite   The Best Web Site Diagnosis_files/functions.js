@@ -21,23 +21,23 @@ Stage.currentState = "scene1";
         //--
         //++ init config 
             jQuery("body").height(8500);
-           // cuppa.moveContent("body","", false, true, 0, 0, 0.1);
+            cuppa.moveContent("body","", false, true, 0, 0, 0.1);
             Stage.configTimeInit();
         //--
         //++ load content
-            //TweenMax.to(".loader", 0.4, {display:"block", alpha:1});
-           // Stage.loader1 = new cuppa.spriteSheetAnimation( {target:".loader .loader1", fps:30, frames:50, columns:8, play:false} )
-           // Stage.loader2 = new cuppa.spriteSheetAnimation( {target:".loader .loader2", fps:30, frames:28, columns:6} )
+            TweenMax.to(".loader", 0.4, {display:"block", alpha:1});
+            Stage.loader1 = new cuppa.spriteSheetAnimation( {target:".loader .loader1", fps:30, frames:50, columns:8, play:false} )
+            Stage.loader2 = new cuppa.spriteSheetAnimation( {target:".loader .loader2", fps:30, frames:28, columns:6} )
             cuppa.addEventListener("progress", Stage.progress, ".wrapper");
             cuppa.addEventListener("complete", Stage.complete, ".wrapper");
-            cuppa.loader(0.5, ".wrapper", 10);/**/
+            cuppa.loader(0.5, ".wrapper", 10);
         //--
     }; jQuery(document).ready(Stage.init);
 //--
 //++ Progress / Complete
     Stage.progress = function(e, p, t){
         var position = Math.round( (p/t)*50 );
-       // Stage.loader1.gotoAndStop(position);
+        Stage.loader1.gotoAndStop(position);
     }
     Stage.complete = function(e){
         cuppa.removeEventListener("complete", Stage.complete, ".wrapper");
@@ -48,14 +48,14 @@ Stage.currentState = "scene1";
         jQuery(window).resize(Stage.onSize);
         Stage.configEvents();
         Stage.onSize();
-       TweenMax.delayedCall(0.2, Stage.resetScrolls);
+        TweenMax.delayedCall(0.2, Stage.resetScrolls);
     }
 //--
 //++ Reset scrolls
     Stage.resetScrolls = function(){
-        //cuppa.moveContent("body","body", false, true, 0, 0, 0);
-        //cuppa.moveContent(".wrapper", ".wrapper", false, true, 0, 0);
-       // cuppa.moveContent(".instructions",".instructions", false, true, 0, 0, 0);
+        cuppa.moveContent("body","body", false, true, 0, 0, 0);
+        cuppa.moveContent(".wrapper", ".wrapper", false, true, 0, 0);
+        cuppa.moveContent(".instructions",".instructions", false, true, 0, 0, 0);
     }
 //--
 //++ Events
@@ -130,10 +130,9 @@ Stage.currentState = "scene1";
 //++ Change state, value: next, prev
     Stage.changeState = function(value){
         if(value == "next"){
-            
+            //console.log("current: " + Stage.currentState)
             var nextLabel = Stage.timeScroll.getLabelAfter( Stage.timeScroll.getLabelTime(Stage.currentState) );
-            if(!nextLabel){ return; }
-            console.log( nextLabel );
+            if(!nextLabel){ return; }  
             //console.log("next: " + nextLabel)
             var scroll = Stage.timeScroll.getLabelTime(nextLabel)/ Stage.timeScroll.totalDuration();
             var duration = Math.abs(  Stage.timeScroll.time() - Stage.timeScroll.getLabelTime(nextLabel) );
@@ -147,7 +146,6 @@ Stage.currentState = "scene1";
             //console.log("next: " + nextLabel)
             var scroll = Stage.timeScroll.getLabelTime(nextLabel)/ Stage.timeScroll.totalDuration();
             var duration = Math.abs(  Stage.timeScroll.time() - Stage.timeScroll.getLabelTime(nextLabel) );
-            console.log( duration );
             cuppa.moveContent("body","body", false, true, 0, scroll, duration, Linear.easeNone, true);
             Stage.currentState = nextLabel;
         }
@@ -157,7 +155,7 @@ Stage.currentState = "scene1";
     Stage.configTimeScroll = function(){
         $(".scene").height($(window).height());
         var time = (Stage.timeScroll) ? Stage.timeScroll.time() : 0;
-       // cuppa.moveContent(".wrapper", ".wrapper", false, true, 0, 0);
+        cuppa.moveContent(".wrapper", ".wrapper", false, true, 0, 0);
         if(Stage.timeScroll) Stage.timeScroll.clear();
         Stage.timeScroll = new TimelineMax();
             Stage.timeScroll.add("scene1");
@@ -168,7 +166,7 @@ Stage.currentState = "scene1";
         Stage.timeScroll.to(".menu_wrapper", 0, {top:0});
         //++ Add tweens
             Stage.timeScroll.to(".scene2", 0.8, {top:0, ease:Cubic.easeInOut });
-Stage.timeScroll.to({ban:0},0.1, {ban:1, onReverseComplete:function(){ menu.changeMenu('state1'); } , onComplete:function(){ menu.changeMenu('state2'); } }, "-=0.2");
+            Stage.timeScroll.to({ban:0},0.1, {ban:1, onReverseComplete:function(){ menu.changeMenu('state1'); } , onComplete:function(){ menu.changeMenu('state2'); } }, "-=0.2");
                 Stage.timeScroll.add("scene2");
                 
             Stage.timeScroll.to({space:0}, 0.21, {space:1, ease:Cubic.easeInOut, onReverseComplete:function(){ scene2.timeline.tweenTo('state1') }, onComplete:function(){ scene2.timeline.tweenTo('point1'); } });
@@ -184,7 +182,7 @@ Stage.timeScroll.to({ban:0},0.1, {ban:1, onReverseComplete:function(){ menu.chan
                 Stage.timeScroll.add("point3");
                 Stage.timeScroll.add(function(){ scene2.timeline.tweenTo('point3'); }, "+=0.1" );
             Stage.timeScroll.to(".scene3", 0.8, {top:0, ease:Cubic.easeInOut });
-            //Stage.timeScroll.to({ban:0},0.1, {ban:1, onReverseComplete:function(){ menu.changeMenu('state2'); } , onComplete:function(){ menu.changeMenu('state3'); } }, "-=0.2");
+            Stage.timeScroll.to({ban:0},0.1, {ban:1, onReverseComplete:function(){ menu.changeMenu('state2'); } , onComplete:function(){ menu.changeMenu('state3'); } }, "-=0.2");
                 Stage.timeScroll.add("scene3_1");
             Stage.timeScroll.to({space:0}, 0.1, {space:1, ease:Linear.easeNone, onReverseComplete:function(){ scene3.timeline.tweenTo('state1') }, onComplete:function(){ scene3.timeline.tweenTo('state2') } });
             Stage.timeScroll.to({space:0}, 0.1, {space:1, ease:Linear.easeNone });
@@ -202,10 +200,9 @@ Stage.timeScroll.to({ban:0},0.1, {ban:1, onReverseComplete:function(){ menu.chan
         Stage.timeScroll.stop();
         try{ Stage.timeScroll.seek(time); }catch(err){}
     }
-    //初始导航条动画
     Stage.configTimeInit = function(){
         Stage.timeInit = new TimelineMax({delay:0.5});
-       /* Stage.timeInit.to(".wrapper",0, {opacity:0});
+        Stage.timeInit.to(".wrapper",0, {opacity:0});
         Stage.timeInit.to(".menu .buttons", 0, {alpha:0, display:"none"});
         Stage.timeInit.to(".menu .line", 0, {alpha:0});
         Stage.timeInit.to(".menu", 0, {alpha:0, overflow:"hidden", left:$(window).width() });
@@ -227,11 +224,11 @@ Stage.timeScroll.to({ban:0},0.1, {ban:1, onReverseComplete:function(){ menu.chan
         Stage.timeInit.to(".scene1 .stethoscope_right", 0.7, {rotation:0,  top:"50%", ease:Cubic.easeOut}, "-=1.7");
         Stage.timeInit.to("body", 0, { overflowY:"scroll" }, "-=0.5")
         Stage.timeInit.to(".scene1 .controls", 0.6, {alpha:1, bottom:20, ease:Cubic.easeOut }, "-=0.5");
-        Stage.timeInit.stop();*/
+        Stage.timeInit.stop();
     }
 //++ ScrollStatus
     Stage.scrollStatus = function(e){       
-        var position = cuppa.statusScrollPorcent().y * Stage.timeScroll.totalDuration();
+        var position = cuppa.statusScrollPorcent().y * Stage.timeScroll.totalDuration(); 
         Stage.timeScroll.seek(position, false);
     }
 //--

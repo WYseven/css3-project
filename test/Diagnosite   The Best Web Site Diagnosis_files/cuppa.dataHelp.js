@@ -197,7 +197,6 @@
 // Dispache vars: element, showed, direction: 1 (down) or -1 (up)
     cuppa.visualitationElementHandler = function(element, area, functionResponce, propagationPersisting, desface){
         if(!area || area == "body") area = window;
-        
         this.onScroll = function(){
             jQuery(element).each(function(){
                 cuppa.visualitationElement(this, area, functionResponce, propagationPersisting, desface);
@@ -215,20 +214,16 @@
 //++ Visualization element
     cuppa.visualitationElement = function(element, area, functionResponce, propagationPersisting, desface){
         if(desface == undefined) desface = 0;
-        desface = -1*desface; //负的可是区域高度的一半
-        //定位高度
+        desface = -1*desface;
         var dimention = cuppa.dimentions(element);
-        console.log(dimention.y);
-        //scrollTop   height 可是区域的高度
         var position_y = cuppa.statusScrollPixel(area).y + jQuery(area).height() - 1;
-        console.log( jQuery(element)[0].showed );
         if(position_y + desface > dimention.y && position_y - desface < dimention.y + dimention.height + jQuery(area).height() ){
             if(!jQuery(element)[0].showed || propagationPersisting){
                 //++ Direction scroll
                     var direction = 1;
                     if(element.prev_position_y > position_y) direction = -1;
                 //--
-               // jQuery(element).trigger("showed", [element, true, direction]);
+                jQuery(element).trigger("showed", [element, true, direction]);
                 functionResponce(element, true, direction);
             }
             jQuery(element)[0].showed = true;
@@ -238,7 +233,7 @@
                     var direction = 1;
                     if(element.prev_position_y < position_y) direction = -1;
                 //--
-                //jQuery(element).trigger("hidden", [element, false, direction]);
+                jQuery(element).trigger("hidden", [element, false, direction]);
                 functionResponce(element, false, direction);
             }
             jQuery(element)[0].showed = false;
@@ -544,10 +539,7 @@
         var percent = {x:0, y:0};
         var position =  {x:jQuery(area).scrollLeft(), y:jQuery(area).scrollTop()};
         var areaParams = {width:jQuery(area).width(), height:jQuery(area).height()};
-            if(area == "html, body"){ 
-                areaParams.width = jQuery(window).width(); 
-                areaParams.height = jQuery(window).height(); 
-            }
+            if(area == "html, body"){ areaParams.width = jQuery(window).width(); areaParams.height = jQuery(window).height(); }
         var contentParams = {width:jQuery(area).prop("scrollHeight"), height:jQuery(area).prop("scrollHeight")};
             if(!contentParams.width) contentParams.width = jQuery(document).width();
             if(!contentParams.height) contentParams.height = jQuery(document).height();
@@ -556,7 +548,6 @@
                 scrollPercent = (s / (d-c)); //if(!scrollPercent) scrollPercent = 0;
                 percent.x = scrollPercent;
         // Scroll Y
-            // s滚动的高度   d:总高度  c 可是区域的高度
             var s = position.y, d = contentParams.height, c = areaParams.height;
                 scrollPercent = (s / (d-c)); //if(!scrollPercent) scrollPercent = 0;
                 percent.y = scrollPercent;
