@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			*{
+				padding: 0;
+				margin:0;
+			}
+			#front {
+				width: 200px;
+				height: 400px;
+				background: red;
+				position: absolute;
+				left: 0;
+				top:0;
+				z-index: 2;
+			}
+			#back {
+				width: 200px;
+				height: 400px;
+				background: blue;
+				position: absolute;
+				left: 0;
+				top:0;
+				z-index: 1;
+			}
+		</style>
+		<script type="text/javascript" src="./js/jquery.js"></script>
+		<script type="text/javascript" src="./js/TweenMax.js"></script>
+<script>
+
+window.onload = function (){
+
+
+	var line = new TimelineMax();
+
+	line.to( "#back",0,{ rotationY:-90,opacity:0 } );
+
+	line.to( "#front",1,{ rotationY:90,opacity:0,visible:true } );
+
+	line.to( "#back",1,{rotationY:0,opacity: 1},"+=0.1" )
+
+};
+
+</script>
+	</head>
+
+	<body>
+		<div id="front">A</div>
+		<div id="back">B</div>
+	</body>
+</html>

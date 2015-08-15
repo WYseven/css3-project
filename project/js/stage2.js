@@ -1,44 +1,16 @@
 var miaov = {};
 
-miaov.responsiveImagesWidth = function(element, property){
-        if(property == undefined) property = "width";
-        jQuery(element).each(function(){
-            if(property == "width"){
-                var width = parseFloat(jQuery(this).attr("width"));
-
-                if(width){
-                    jQuery(this).css({"width":"100%","max-width":width,"height":"auto"});
-                }else{
-                    jQuery(this).load(function(e){
-                        width = jQuery(this).width();
-                        jQuery(this).css({"width":"100%","max-width":width,"height":"auto"});
-                    });
-                    console.log( jQuery(this).height() );
-                    if( jQuery(this).height() ) jQuery(this).trigger("load");
-                }
-            }
-            else if(property == "height"){
-                var height = parseFloat(jQuery(this).attr("height"));   
-                if(height){
-                    jQuery(this).css({"height":"100%","max-height":height,"width":"auto"});
-                }else{
-                    jQuery(this).load(function(e){
-                        height = jQuery(this).height();
-                        jQuery(this).css({"height":"100%","max-height":height,"width":"auto"});
-                    });
-                    if( jQuery(this).height() ) jQuery(this).trigger("load");
-                }         
-            }
-        });
-    }
-
 miaov.timeInit = null;
 miaov.currentState = "scene1";
 miaov.timeScroll = null;
 
+<<<<<<< .mine
+miaov.dic = "prev";
+
+=======
 miaov.dic = "next";
 
-
+>>>>>>> .r212
 miaov.init = function (){
 
 	miaov.configTimeInit();
@@ -48,14 +20,19 @@ miaov.init = function (){
 	scene3.init();
 
 	jQuery("body").height(8500);
+
+	//$(document).scrollTop(0);
 	
 	miaov.configTimeScroll();
 
-	miaov.responsiveImagesWidth( ".firstContent img" );
-
 	miaov.events();
+<<<<<<< .mine
+
+
+=======
 
 	$(window).scrollTop(0);
+>>>>>>> .r212
 };
 $(document).ready( miaov.init );
 
@@ -64,16 +41,12 @@ miaov.configTimeScroll = function (){
 	$(".m_content").height($(window).height());
 	$(".m_content:not(':first')").css("top",$(window).height());
 
-	
-
 	var time = (miaov.timeScroll) ? miaov.timeScroll.time() : 0;
-
-	
 
 	if(miaov.timeScroll) miaov.timeScroll.clear();
     miaov.timeScroll = new TimelineMax();
         miaov.timeScroll.add("scene1");
-	miaov.timeScroll.to(".footer", 0, {top:"100%" });
+
     miaov.timeScroll.to(".main .twoContent",0.8,{top:0,ease:Cubic.easeInOut });
     miaov.timeScroll.to({ban:0},0.1, {ban:1, onReverseComplete:function(){ menu.changeMenu('state1'); } , onComplete:function(){ menu.changeMenu('state2'); } }, "-=0.2");
 
@@ -97,16 +70,7 @@ miaov.configTimeScroll = function (){
 		miaov.timeScroll.add("scene3_2");
     	
     miaov.timeScroll.to(".main .fourContent",0.8,{top:0,ease:Cubic.easeInOut });
-    	miaov.timeScroll.add("fiveContent");
-    miaov.timeScroll.to(".main .fiveContent",0.8,{top:0,ease:Cubic.easeInOut });
-    miaov.timeScroll.to(".main .fourContent",0.8,{top:-$(window).height(),ease:Cubic.easeInOut },"=-0.8");
-    miaov.timeScroll.to(".menu_wrapper",0.8,{top:-110,ease:Cubic.easeInOut },"=-0.8");
     	miaov.timeScroll.add("scene4");
-
-    miaov.timeScroll.to(".main .fiveContent",0.5,{top:-$(".footer").outerHeight(),ease:Cubic.easeInOut });
-    miaov.timeScroll.to(".main .footer",0.5,{top:$(window).height()-$(".footer").outerHeight(),ease:Cubic.easeInOut },"-=0.5");
-
-    	miaov.timeScroll.add("footer");
 
     miaov.timeScroll.stop();
 
@@ -163,7 +127,7 @@ miaov.events = function (){
 			
 				if(!prev_label) prev_label = "scene1";
 			var next_label = miaov.timeScroll.getLabelAfter( current_time );
-            	if(next_label == null) next_label = "footer";
+            	if(next_label == null) next_label = "scene4";
 
             	var prev_label_time = Math.abs(miaov.timeScroll.getLabelTime(miaov.timeScroll.getLabelBefore( current_time )) - current_time);
                 var next_label_time = Math.abs(miaov.timeScroll.getLabelTime(miaov.timeScroll.getLabelAfter( current_time )) - current_time);
@@ -171,7 +135,7 @@ miaov.events = function (){
                     miaov.currentState = "scene1";
                     miaov.gotoLabel(miaov.currentState);
                 }else if(scroll == 1){
-                    miaov.currentState = "footer";
+                    miaov.currentState = "scene4";
                     miaov.gotoLabel(miaov.currentState);
                 }else if(prev_label_time < next_label_time){
                     miaov.gotoLabel(prev_label);
@@ -187,7 +151,12 @@ miaov.events = function (){
 	function onMouseWheel(ev,direction){
 		if( direction >= 1 ){
 			miaov.changeState("prev");
+<<<<<<< .mine
+
+			miaov.dic = "prev";
+=======
 			miaov.dic = "prev"
+>>>>>>> .r212
 		}else{
 			miaov.changeState("next");
 			miaov.dic = "next";
@@ -206,7 +175,11 @@ miaov.changeState = function ( value ){
 		var scroll = miaov.timeScroll.getLabelTime(nextLabel)/ miaov.timeScroll.totalDuration();
 		var duration = Math.abs(  miaov.timeScroll.time() - miaov.timeScroll.getLabelTime(nextLabel) );
 		var positionY = (jQuery("body").height()-jQuery(window).height())*scroll;
+<<<<<<< .mine
+
+=======
 		
+>>>>>>> .r212
 		TweenMax.to("html body", duration, { scrollTop:positionY, ease:"linear"} );
 		
 		miaov.currentState = nextLabel;
@@ -230,7 +203,11 @@ miaov.scrollStatus = function (){
 	//每次滚动的距离
 
 	var times = miaov.sacle() * miaov.timeScroll.totalDuration();
+<<<<<<< .mine
+
+=======
 	
+>>>>>>> .r212
 	miaov.timeScroll.seek(times, false);//每一次改变时间到达的点
 };
 
@@ -260,83 +237,72 @@ scene2.onOff = true;
 scene2.config = function (){
 
 
-	//init
-	scene2.timeline.to(".twoContent .points", 0.4, { alpha:0,y:200,display: "none"});
-
+<<<<<<< .mine
+	scene2.timeline.staggerTo(".step2_1 img", 0.2, { alpha:1, rotationX:0, ease:Cubic.easeOut,onComplete:function (){
+		scene2.onOff = false;
+	}}, 0.2 );
+=======
 	scene2.timeline.to(".step2_1 img", 0.4, { alpha:1, rotationX:0, ease:Cubic.easeOut,onComplete:function (){
 		scene2.onOff = false;
 	}}, 0.5 );
-
-	scene2.timeline.to(".twoContent .points", 0.4, { alpha:1,y:0,display: "block"},"-=0.3");
-	scene2.timeline.add(function (){
-		$(".point0").addClass("selected");
-	});
-
+>>>>>>> .r212
 	//scene2.timeline.staggerTo(".step2_1 img", 0.4, { alpha:1, rotationX:0, ease:Cubic.easeOut}, 0.1 );
 	scene2.timeline.add("state1");
 	scene2.timeline.staggerTo(".step2_1 img", 0.2, { alpha:0, rotationX:90, ease:Cubic.easeIn}, 0 );
-	
 	scene2.timeline.to(".step2_2 .left", 0, { alpha:0 }, "0");
     scene2.timeline.to(".step2_2 .right img", 0, {rotationX:-90, transformPerspective:600, transformOrigin:"center center" }, "0");
-  		   	    scene2.timeline.add(function (){
-  		   			$(".point0").addClass("selected");
-  		   		},"-=0.1");
-  		    scene2.timeline.add(function (){
-  		    	$(".point").removeClass("selected");
-  		    });
-  		    scene2.timeline.add(function (){
-  				$(".point1").addClass("selected");
-  			},"+=0.1");
     scene2.timeline.to(".step2_2 .left", 0.4, { alpha:1 });
     scene2.timeline.staggerTo(".step2_2 .right img", 0.3, { alpha:1, rotationX:0, ease:Cubic.easeInOut}, 0, "-=0.4" );
-   	    
 	scene2.timeline.add("point1");
-	
+
 	scene2.timeline.staggerTo(".step2_2 .right img", 0.2, { alpha:0, rotationX:90, ease:Cubic.easeIn}, 0 );
    	scene2.timeline.to(".step2_2 .left", 0.2, { alpha:0, ease:Cubic.easeIn }, "-=0.2");
 
-   	scene2.timeline.add(function (){
-	    		$(".point1").addClass("selected");
-	    	},"-=0.1");
-	    scene2.timeline.add(function (){
-	    	$(".point").removeClass("selected");
-	    });
-        scene2.timeline.add(function (){
-    		$(".point2").addClass("selected");
-    	},"+=0.1");
-
    	scene2.timeline.to(".step2_3 .left", 0.4, { alpha:1 } );
     scene2.timeline.staggerTo(".step2_3 .right img", 0.3, { alpha:1, rotationX:0, ease:Cubic.easeInOut}, 0, "-=0.4" );
-	        
     scene2.timeline.add("point2");
     scene2.timeline.staggerTo(".step2_3 .right img", 0.2, { alpha:0, rotationX:90, ease:Cubic.easeIn}, 0 );
    	scene2.timeline.to(".step2_3 .left", 0.2, { alpha:0, ease:Cubic.easeIn }, "-=0.2");
 
-   	    	    scene2.timeline.add(function (){
-   	    			$(".point2").addClass("selected");
-   	    		},"-=0.1");
-   			scene2.timeline.add(function (){
-   				$(".point").removeClass("selected");
-   			});
-   			scene2.timeline.add(function (){
-   				console.log(123);
-   			});
-   			scene2.timeline.add(function (){
-   				$(".point3").addClass("selected");
-   			});
-
    	scene2.timeline.to(".step2_4 .left", 0.4, { alpha:1 } );
     scene2.timeline.staggerTo(".step2_4 .right img", 0.3, { alpha:1, rotationX:0, ease:Cubic.easeInOut}, 0, "-=0.4" );
-    	    
     scene2.timeline.add("point3");
 
 	scene2.timeline.stop();
 };
 
 scene2.init = function (){
+<<<<<<< .mine
 	scene2.config();
+	$(window).bind("scroll",function (){
+		//可是区域的-一半
+		var clientYiban = $(window).height()*0.5;
+		var eleOffsetY = $(".twoContent").offset().top;  //元素到顶端的距离
+        var offsetTop = $(window).scrollTop();
+        var clientH = $(window).height();
 
-	miaov.responsiveImagesWidth( ".threeContent img" );
+        /*
+        * 如果当前元素到页面顶部的距离，小于可视区域-可视区域的一半，就说明当前元素要向上滚动
+        * */
+
+        if( offsetTop + clientYiban > eleOffsetY && scene2.onOff  ){
+
+            //console.log( 123 );
+            scene2.timeline.timeScale(1);
+            scene2.timeline.seek(0, false);
+            scene2.timeline.tweenTo("state1");
+        }
+
+        if( offsetTop + clientYiban < eleOffsetY && miaov.dic === "prev" ){
+        	scene2.timeline.timeScale(9);
+        	scene2.timeline.tweenTo(0);
+        	scene2.onOff = true;
+        }
+	})
+
+
+=======
+	scene2.config();
 
 	$(window).bind("scroll",function (){
 		//可是区域的-一半
@@ -370,11 +336,13 @@ scene2.init = function (){
 	})
 
 
+>>>>>>> .r212
 };
 
 
 var scene3 = {}
 scene3.timeline = new TimelineMax();
+scene3.onOff = true;
 
 scene3.onOff = true;
 
@@ -383,9 +351,15 @@ scene3.config = function (){
 	scene3.timeline.to(".threeContent .step img", 0, {rotationX:-90, alpha:0, transformPerspective:600, transformOrigin:"center center" });
 	//scene3.timeline.to(".step3_2 img", 0, {y:50});
 	// state1
+<<<<<<< .mine
+	scene3.timeline.staggerTo(".step3_1 img", 0.4, { alpha:1, rotationX:0, y:0, ease:Cubic.easeInOut,onComplete:function (){
+		scene3.onOff = false;	
+	}}, 0.1 );
+=======
 	scene3.timeline.staggerTo(".step3_1 img", 0.4, { alpha:1, rotationX:0, y:0, ease:Cubic.easeInOut,onComplete:function (){
 		scene3.onOff = false;
 	}}, 0.2 );
+>>>>>>> .r212
 	scene3.timeline.add("state1");
 	// state2
 	scene3.timeline.to(".step3_1 img", 0.3, { alpha:0, rotationX:90, ease:Cubic.easeIn});
@@ -395,10 +369,35 @@ scene3.config = function (){
 };
 
 scene3.init = function (){
+<<<<<<< .mine
 	scene3.config();
+		$(window).bind("scroll",function (){
+			//可是区域的-一半
+			var clientYiban = $(window).height()*0.5;
+			var eleOffsetY = $(".threeContent").offset().top;  //元素到顶端的距离
+	        var offsetTop = $(window).scrollTop();
+	        var clientH = $(window).height();
 
-	miaov.responsiveImagesWidth( ".threeContent img" );
+	        /*
+	        * 如果当前元素到页面顶部的距离，小于可视区域-可视区域的一半，就说明当前元素要向上滚动
+	        * */
 
+	        if( offsetTop + clientYiban > eleOffsetY && scene3.onOff  ){
+
+	            //console.log( 123 );
+	            scene3.timeline.timeScale(1);
+	            scene3.timeline.seek(0, false);
+	            scene3.timeline.tweenTo("state1");
+	        }
+
+	        if( offsetTop + clientYiban < eleOffsetY && miaov.dic === "prev" ){
+	        	scene3.timeline.timeScale(9);
+	        	scene3.timeline.tweenTo(0);
+	        	scene3.onOff = true;
+	        }
+		})
+=======
+	scene3.config();
 	$(window).bind("scroll",function (){
 		//可是区域的-一半
 		var clientYiban = $(window).height()*0.5;
@@ -425,6 +424,7 @@ scene3.init = function (){
 		};
 
 	})	
+>>>>>>> .r212
 };
 
 

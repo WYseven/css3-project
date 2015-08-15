@@ -72,12 +72,12 @@ window.onload = function (){
 
 		se.line.add("point1");
 
-		se.line.to({space:0},0.21,{space:1, ease:Cubic.easeInOut, onReverseComplete:function(){ oImg.line.tweenTo('point1') }, onComplete:function(){ oImg.line.tweenTo('point2'); }});
+		/*se.line.to({space:0},0.21,{space:1, ease:Cubic.easeInOut, onReverseComplete:function(){ oImg.line.tweenTo('point1') }, onComplete:function(){ oImg.line.tweenTo('point2'); }});
 		se.line.add(function (){
 			oImg.line.tweenTo('point2');	
 		},"-=0.1");
 
-		se.line.add("point2");
+		se.line.add("point2");*/
 
 		se.line.to("#div3",1,{width:1000});
 

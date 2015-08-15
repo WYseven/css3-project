@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			body,ul{
+				margin: 0;
+				padding: 0;
+			}
+
+			div{
+				width: 100px;
+				height: 100px;
+				background: red;
+			}
+			.bg{
+				background: blue;
+			}
+
+			.w {
+				width: 1000px;
+			}
+		
+			#div1{
+				background: yellow;
+				/* margin-left:30px;
+				margin-top:30px;
+				margin-right:30px;
+				margin-bottom:30px; */
+
+/* 				margin:30px 5px 50px 20px;
+			 */			
+				/* padding: 30px 20px; */
+
+				/* border-width: 5px;
+				border-style: solid;
+				border-color: green; */
+
+				/* border-left-width: 5px;
+				border-left-style:solid;
+				border-left-color: #000;
+				border-right-width: 5px;
+				border-right-style:solid;
+				border-right-color: blue; */
+
+				border:10px solid #000;
+			}
+		</style>
+		<script>
+			/*
+				盒模型：width height margin padding border
+
+				margin:
+					一个值的时候 10px  上下左右
+					俩值得时候  10px 20px   上下 左右
+					三个值时候  10px 20px 30px  上 左右 下
+					四个值： 10px 20px 30px 40px 上 右 下 左
+			*/
+
+			/*
+				选择器：
+
+					css：
+
+					标签选择器:通过标签名选中元素                           1
+
+					class选择器：通过class名字选择元素的  .class名字       10
+
+					id选择器：通过id名选择元素   #id名字					100
+			*/
+
+		</script>
+	</head>
+
+	<body>
+		<div  id="div1" class="bg">123</div>
+		<div id="div2" class="active">455</div>
+	</body>
+</html>
