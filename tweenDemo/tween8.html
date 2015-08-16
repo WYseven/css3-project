@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			#div1{
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: absolute;
+				left: 0px;
+				top:0;
+			}
+		</style>
+		<script type="text/javascript" src="./js/jquery.js"></script>
+		<script type="text/javascript" src="./js/TweenMax.js"></script>
+<script>
+/*
+	new TimelineMax
+
+	to方法:
+		参数：
+			第一个参数，是一个元素选择器 或者对象
+			第二个参数，是持续时间
+			第三个参数，是一个对象，动画变化的属性和对应的值
+			第四个参数，延迟发生时间  直接写数字,"-=0,5","+=0.5"
+*/
+window.onload = function (){
+
+	var t = new TimelineMax();
+
+	t.to( "#div1",1,{left:100} ).to("#div1",1,{y:100},"+=0.5");
+	t.to( {},2,{onUpdate:function (){
+		console.log("1233333");	
+	},onComplete:function (){
+		console.log(123);
+	}} );
+
+
+};
+
+</script>
+	</head>
+
+	<body>
+		<div id="div1"></div>
+	</body>
+</html>
