@@ -13,7 +13,7 @@ miaov.responsiveImagesWidth = function(element, property){
                         width = jQuery(this).width();
                         jQuery(this).css({"width":"100%","max-width":width,"height":"auto"});
                     });
-                    console.log( jQuery(this).height() );
+
                     if( jQuery(this).height() ) jQuery(this).trigger("load");
                 }
             }
@@ -46,6 +46,7 @@ miaov.init = function (){
 
 	scene2.init();
 	scene3.init();
+	scene5.init();
 
 	jQuery("body").height(8500);
 	
@@ -101,6 +102,7 @@ miaov.configTimeScroll = function (){
     miaov.timeScroll.to(".main .fiveContent",0.8,{top:0,ease:Cubic.easeInOut });
     miaov.timeScroll.to(".main .fourContent",0.8,{top:-$(window).height(),ease:Cubic.easeInOut },"=-0.8");
     miaov.timeScroll.to(".menu_wrapper",0.8,{top:-110,ease:Cubic.easeInOut },"=-0.8");
+    
     	miaov.timeScroll.add("scene4");
 
     miaov.timeScroll.to(".main .fiveContent",0.5,{top:-$(".footer").outerHeight(),ease:Cubic.easeInOut });
@@ -319,9 +321,6 @@ scene2.config = function (){
    				$(".point").removeClass("selected");
    			});
    			scene2.timeline.add(function (){
-   				console.log(123);
-   			});
-   			scene2.timeline.add(function (){
    				$(".point3").addClass("selected");
    			});
 
@@ -361,19 +360,13 @@ scene2.init = function (){
 			scene2.onOff = true;
 		};
 
-
-
-		//console.log( eleOffsetY,scrollTop, clientYiban);
-
-		//if( eleOffsetY  )
-
 	})
 
 
 };
 
 
-var scene3 = {}
+var scene3 = {};
 scene3.timeline = new TimelineMax();
 
 scene3.onOff = true;
@@ -410,7 +403,6 @@ scene3.init = function (){
 
 		var scrollTop = $(window).scrollTop();
 
-		console.log( eleOffsetY < scrollTop+clientYiban );
 		
 		if( eleOffsetY < scrollTop+clientYiban && scene3.onOff){
 			scene3.timeline.timeScale(1);
@@ -422,6 +414,55 @@ scene3.init = function (){
 			scene3.timeline.timeScale(100);
 			scene3.timeline.tweenTo(0);
 			scene3.onOff = true;
+		};
+
+	})	
+};
+
+var scene5 = {};
+scene5.timeline = new TimelineMax();
+
+scene5.onOff = true;
+
+scene5.config = function (){
+	scene5.timeline.to(".fiveContent .scope_down",0.6,{top:0,ease:Cubic.easeOut,onComplete:function (){
+		scene5.onOff = false;	
+	}});
+	scene5.timeline.staggerTo( ".fiveContent img,.fiveContent .leftContent",1.7,{rotationX:0,opacity: 1,ease:Elastic.easeOut},0.2 );
+	scene5.timeline.to({ban:0},0,{ban:1,onComplete:function (){
+		$(".fiveContent .leftContent").css("transform","none");
+		$(".fiveContent .leftContent").css("-webkit-transform","none");
+	}});
+	scene5.timeline.add( "state1" );
+	scene5.timeline.stop();
+};
+
+scene5.init = function (){
+	scene5.config();
+
+	miaov.responsiveImagesWidth( ".fiveContent img" );
+
+	$(window).bind("scroll",function (){
+		//可是区域的-一半
+		var clientYiban = $(window).height()*0.5;
+
+		var eleOffsetY = $(".fiveContent").offset().top;  //元素到顶端的距离	
+		var eleHeight = $(".fiveContent").height();
+
+		var clientH = $(window).height(); //可视区域的高度
+
+		var scrollTop = $(window).scrollTop();
+		
+		if( eleOffsetY < scrollTop+clientYiban && scene5.onOff){
+			scene5.timeline.timeScale(1);
+			scene5.timeline.seek(0, false);
+			scene5.timeline.tweenTo("state1");
+		};
+
+		if( eleOffsetY > scrollTop+clientYiban && miaov.dic === "prev"){
+			scene5.timeline.timeScale(100);
+			scene5.timeline.tweenTo(0);
+			scene5.onOff = true;
 		};
 
 	})	

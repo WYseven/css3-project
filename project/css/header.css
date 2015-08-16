@@ -502,15 +502,16 @@
 	z-index: 20;
 }
 
-.fiveContent .step img{
+.fiveContent .step img,.fiveContent .leftContent{
 	-webkit-transform: rotateX(-90deg);
-	-webkit-transform-origin: center center 0px
+	-webkit-transform-origin: center center 0px;
+	opacity: 0;
 }
 
 .fiveContent .scope_down{
 	position: absolute;
 	left: 50%;
-	top:-s200px;
+	top:-200px;
 	margin-left: -71px;
 }
 
@@ -520,6 +521,7 @@
 	border:none;
 	position: relative;
 	margin:30px auto;
+	opacity: 1;
 }
 
 .fiveContent .transDiv{
