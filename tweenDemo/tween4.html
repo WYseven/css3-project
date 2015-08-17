@@ -60,7 +60,7 @@ window.onload = function (){
 	var t = new TimelineMax();
 	t.add("state0");
 
-	t.to( "#div1",1,{left:200} );
+	t.staggerTo( "#div1",1,{left:200},"5" );
 	t.add("state1");
 
 	t.to("#div1",1,{y:200});
