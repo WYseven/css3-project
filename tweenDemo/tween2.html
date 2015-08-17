@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			#div1{
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: absolute;
+				left: 0px;
+				top:50px;
+			}
+		</style>
+		<script type="text/javascript" src="./js/jquery.js"></script>
+		<script type="text/javascript" src="./js/TweenMax.js"></script>
+<script>
+/*
+	new TimelineMax
+
+	to方法:开启动画
+		参数：
+			第一个参数，是一个元素选择器 或者对象
+			第二个参数，是持续时间
+			第三个参数，是一个对象，动画变化的属性和对应的值
+			第四个参数，延迟发生时间  直接写数字,"-=0,5","+=0.5"
+
+	seek:指定时间以及状态，但无过渡效果
+		参数：
+			第一个参数，时间或者状态
+			第二个参数，布尔值，是否执行一些回调事件，例如，onComplete,onUpdate,onReverseComplate
+				默认为true,不触发回调函数
+				设为false，触发回调函数
+
+	add：使用add给每一步动画添加一个状态，方便管理动画
+
+		参数：
+			一个字符串，代表当前状态
+			一个函数
+
+	tweenTo:指定时间以及状态，有过渡效果
+
+		参数：
+			第一个参数，时间或者状态
+			第二个参数，一个对象，默认为null
+				等运动完后会执行的一些回调
+
+
+*/
+window.onload = function (){
+
+	var t = new TimelineMax();
+
+	t.to( "#div1",1,{left:200} );
+	t.add("state1");
+	t.to("#div1",1,{y:200});
+	t.add("state2");
+	t.to("#div1",1,{rotationY:180,transformOrigin: "center center",tansformperspective:500});
+	t.add("state3");
+
+	t.stop();
+
+	btn1.onclick = function (){
+		t.tweenTo(1,{onComplete:function (t){
+			console.log( t.tweenTo(2) );
+		},onCompleteParams:[t]});
+	};
+	btn2.onclick = function (){
+			
+	};
+	btn3.onclick = function (){
+			
+	};
+
+
+};
+
+</script>
+	</head>
+
+	<body>
+		<input type="button" id="btn1" value="state1-left:200">
+		<input type="button" id="btn2" value="state2-top:200">
+		<input type="button" id="btn3" value="state3-旋转">
+		<div id="div1"></div>
+	</body>
+</html>
