@@ -17,7 +17,7 @@
 		<script type="text/javascript" src="./js/TweenMax.js"></script>
 <script>
 /*
-	API：http://greensock.com/docs/#/HTML5/GSAP/TimelineMax/tweenTo/
+	API：http://greensock.com/docs/#/HTML5/GSAP/TimelineMax/
 	
 	new TimelineMax
 
@@ -48,6 +48,7 @@
 			第二个参数，一个对象，默认为null
 				等运动完后会执行的一些回调
 
+	time:如果不写入参数，返回
 
 	当到达指定的状态时候，途径的状态也会走一遍
 	可能会走reverse
@@ -71,13 +72,18 @@ window.onload = function (){
 	t.stop();
 
 	btn0.onclick = function (){
-		t.tweenTo("state0");
+		console.log( t.time() );
+		//t.tweenTo("state0");
+
 	};
 
 	btn1.onclick = function (){
-		t.tweenTo("state1");
+
+		//t.tweenTo("state1");
+		console.log( t.time(1,true) );
 	};
 	btn2.onclick = function (){
+		console.log( t.time() );
 		t.tweenTo("state2");	
 	};
 	btn3.onclick = function (){
