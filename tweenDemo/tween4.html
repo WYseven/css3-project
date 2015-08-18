@@ -4,13 +4,19 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title></title>
 		<style>
-			#div1{
+			div{
 				width: 100px;
 				height: 100px;
 				background: red;
 				position: absolute;
 				left: 0px;
 				top:50px;
+			}
+			#div2{
+				top:160px;
+			}
+			#div3{
+				top:280px;
 			}
 		</style>
 		<script type="text/javascript" src="./js/jquery.js"></script>
@@ -51,6 +57,8 @@
 	time:如果不写入参数，返回到当前状态的时间
 		写入参数，和seek效果一样
 
+	staggerTo:同一类元素执行动画，之间可以有间隔时间，也可以一起同时运动
+
 	当到达指定的状态时候，途径的状态也会走一遍
 	可能会走reverse
 
@@ -58,42 +66,14 @@
 window.onload = function (){
 
 	var t = new TimelineMax();
-	t.add("state0");
 
-	t.staggerTo( "#div1",1,{left:200},"5" );
-	t.add("state1");
+	/*t.to("#div1",1,{rotationZ:360,x:200})
+	t.to("#div2",1,{rotationZ:360,x:200})
+	t.to("#div3",1,{rotationZ:360,x:200})*/
 
-	t.to("#div1",1,{y:200});
-	t.add(function (){
-		$("#div1").css("background","blue");		
-	});
-	t.add("state2");
-	t.to("#div1",1,{rotationY:180,transformOrigin: "center center",tansformperspective:500,onReverseComplete:function (){
-		console.log(111);		
-	}});
-	t.add("state3");
+	t.staggerTo(".box",1,{rotationZ:360,x:200},0.1);
 
-	t.stop();
-
-	btn0.onclick = function (){
-		console.log( t.time() );
-		//t.tweenTo("state0");
-
-	};
-
-	btn1.onclick = function (){
-
-		t.tweenTo("state1");
-		//console.log( t.time(1,true) );
-	};
-	btn2.onclick = function (){
-		console.log( t.time() );
-		t.tweenTo("state2");	
-	};
-	btn3.onclick = function (){
-		t.tweenTo("state3");		
-	};
-
+	
 
 };
 
@@ -101,10 +81,10 @@ window.onload = function (){
 	</head>
 
 	<body>
-		<input type="button" id="btn0" value="state1-state0">
-		<input type="button" id="btn1" value="state1-left:200">
-		<input type="button" id="btn2" value="state2-top:200">
-		<input type="button" id="btn3" value="state3-旋转">
-		<div id="div1">转动</div>
+		<input type="button" id="btn0" value="翻转">
+
+		<div id="div1" class="box">转动</div>
+		<div id="div2" class="box">转动</div>
+		<div id="div3" class="box">转动</div>
 	</body>
 </html>
