@@ -18,6 +18,7 @@
 <script>
 /*
 	API：http://greensock.com/docs/#/HTML5/GSAP/TimelineMax/tweenTo/
+		http://greensock.com/docs/#/HTML5/GSAP/TimelineMax/
 	
 	new TimelineMax
 
@@ -56,13 +57,19 @@
 window.onload = function (){
 
 	var t = new TimelineMax();
+	//t.to( "#div1",0,{left:0,onComplete:fn,onReverseComplete:fn} );
 	t.add("state0");
-
-	t.to( "#div1",1,{left:200,onComplete:fn} );
+	t.to( "#div1",1,{left:200,/*onComplete:fn,*/onReverseComplete:function (){
+		console.log(111);		
+	}} );
 	t.add("state1");
-	t.to("#div1",1,{y:300,onComplete:fn},"+=0.5");
+	t.to("#div1",1,{y:300,/*onComplete:fn,*/onReverseComplate:function (){
+			console.log("22");
+	}});
 	t.add("state2");
-	t.to("#div1",1,{rotationY:180,transformOrigin: "center center",onComplete:fn});
+	t.to("#div1",1,{rotationY:180,transformOrigin: "center center",/*onComplete:fn,*/onReverseComplate:function (){
+		console.log(333);
+	}});
 	t.add("state3");
 
 	t.stop();
