@@ -52,11 +52,23 @@ miaov.init = function (){
 	
 	miaov.configTimeScroll();
 
-	miaov.responsiveImagesWidth( ".firstContent img" );
+	miaov.responsiveImagesWidth( ".firstContent .step_1 img" );
 
 	miaov.events();
 
 	$(window).scrollTop(0);
+
+	$(".language").mouseenter(function (){
+		$(".dropdown").css({display: "block",opacity: 0})
+		$(".dropdown").stop().animate({opacity: 1});
+	});
+	$(".language").mouseleave(function (){
+		
+		$(".dropdown").animate({opacity: 0},function (){
+			
+			$(".dropdown").css({display: "none"})
+		});
+	});
 };
 $(document).ready( miaov.init );
 
@@ -335,7 +347,7 @@ scene2.config = function (){
 scene2.init = function (){
 	scene2.config();
 
-	miaov.responsiveImagesWidth( ".threeContent img" );
+	miaov.responsiveImagesWidth( ".twoContent .step_1 img" );
 
 	$(window).bind("scroll",function (){
 		//可是区域的-一半
@@ -390,7 +402,7 @@ scene3.config = function (){
 scene3.init = function (){
 	scene3.config();
 
-	miaov.responsiveImagesWidth( ".threeContent img" );
+	miaov.responsiveImagesWidth( ".threeContent .step_1 img" );
 
 	$(window).bind("scroll",function (){
 		//可是区域的-一半
@@ -440,7 +452,7 @@ scene5.config = function (){
 scene5.init = function (){
 	scene5.config();
 
-	miaov.responsiveImagesWidth( ".fiveContent img" );
+	miaov.responsiveImagesWidth( ".fiveContent .step_1 img" );
 
 	$(window).bind("scroll",function (){
 		//可是区域的-一半

@@ -100,6 +100,40 @@
 	display: none;
 }
 
+.language {
+	position: absolute;
+	right: 38px;
+	top:16px;
+	text-align: center;
+
+}
+.select{
+	width: 47px;
+	height: 47px;
+	position: relative;
+	background: rgba(0,0,0,0.12);
+	line-height: 47px;
+}
+.dropdown {
+	position: absolute;
+	left:0;
+	top:100%;
+	right: 0;
+	display: none;
+
+}
+.dropdown a{
+	position: relative;
+	display: block;
+	text-align: center;
+	padding: 18px 0px;
+	background: #FFF;
+	color: #32494E;
+	color: #32494E;
+}
+.dropdown a:hover{
+	background: #f4f4f4;
+}
 /* 浏览器宽度小于950 左侧导航 start */
 .left_nav {
 	width: 300px;
@@ -172,8 +206,27 @@
 	display: block;
 }
 
-.l950 .nav-ul{
+.r950 .nav-ul{
 	opacity: 1;
+}
+
+.r950 .language{
+	top:0;
+	right: 0;
+}
+
+.r950 .select{
+	height: 55px;
+}
+
+.slidIcon {
+	width: 55px;
+	height: 55px;
+	position: absolute;
+	left: 0;
+	top:0;
+	background: url(../img/btn_menu.png) no-repeat center center;
+	cursor: pointer;
 }
 
 
@@ -578,3 +631,8 @@
 }
 
 /* 第四块 样式 end */
+
+/* .r950 .menu_wrapper{
+	top:0;
+}
+ */

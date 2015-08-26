@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			body,ul,li,img{
+				padding:0;
+				margin:0;
+			}
+			li{
+				list-style: none;
+			}
+			img{
+				border: none;
+			}
+			#oUl {
+
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: -20px;
+			}
+			#oUl li {
+				float: left;
+				width: 13.8%;
+				 padding: 0.2%; 
+				position: relative;
+			}
+			#oUl li img{
+				width: 100%;
+				max-width: 100%;
+				height: auto;/* 
+				-webkit-transform: translate3d( 0px,60%,0px);
+				transform: translate3d( 0px,60%,0px);  */
+				position: relative;
+				will-change: transform;
+				-webkit-transition: transform .3s cubic-bezier(0,.68,.86,.98);
+				-transition: transform .3s cubic-bezier(0,.68,.86,.98);
+				cursor: pointer;
+				background-size:contain;
+			}
+			#oUl li:nth-child(1) img{
+				-webkit-transform: translate3d( 0px,63%,0px);
+				background-image: -webkit-image-set(url(./img/1-1.png));
+			}
+			#oUl li:nth-child(2) img{
+				-webkit-transform: translate3d( 0px,47%,0px);
+			}
+			#oUl li:nth-child(3) img{
+				-webkit-transform: translate3d( 0px,67%,0px);
+				background-image: -webkit-image-set(url(./img/3-3.png) 1x);
+			}
+			#oUl li:nth-child(4) img{
+				-webkit-transform: translate3d( 0px,47%,0px);
+				
+				background-image: -webkit-image-set(url(./img/4-4.png) 1x);
+				background-image: url(./img/4.png) no-repeat;
+			}
+			#oUl li:nth-child(5) img{
+				-webkit-transform: translate3d( 0px,27%,0px);
+			}
+			#oUl li:nth-child(6) img{
+				-webkit-transform: translate3d( 0px,47%,0px);
+			}
+			#oUl li:nth-child(7) img{
+				-webkit-transform: translate3d( 0px,61%,0px);
+			}
+			#div2{
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				z-index: 10;
+				height: 370px;
+			}
+			#div2 div{
+				width: 10px;
+				height: 10px;
+				background: red;
+				position: absolute;
+				left: 0;
+				top:0;
+			}
+		</style>
+<script>
+	function view(){
+		return {
+			W:document.documentElement.clientWidth,
+			H:document.documentElement.clientHeight,
+		}
+	}
+	window.onload = function(){
+		var aImg = document.getElementsByTagName("img");
+		var aLi = document.getElementsByTagName("li");
+
+		var arr = [];
+
+		for( var i = 0; i < aImg.length; i++ ){
+			arr.push( { w:aImg[i].offsetWidth,h:aImg[i].offsetHeight,l:aLi[i].offsetLeft,t:aLi[i].offsetTop } );
+		};
+
+		var a = function(e, t,i) {
+            var n = arr[i].t / arr[i].h * 100,
+                o = (t - n) / 5;
+            n += o;
+             e.style.cssText = '-webkit-transform: translate3d(0, '+n+'%, 0); transform: translate3d(0,'+n+'%, 0);';
+            
+        };
+
+        function s(){
+            r = 0,
+            i = aImg.length,
+            l = 5 * oUl.offsetWidth / 7,
+            c = (new Date).valueOf();
+            for (r; i > r; r++) {
+                var u = aImg[r],
+                    d = arr[r].l + arr[r].w / 2,
+                    f = Math.abs(d - eventX);
+                f > l && (f = l);
+                var m = 0;
+                m = Math.cos(f / l * Math.PI)-1, 
+                m = 150 * Math.abs(m);
+                a(u, m,r)
+            }
+        }
+
+        var n,eventX;
+		
+		oUl.onmousemove = function (ev){
+			 ev = ev || event;
+
+			 eventX = ev.clientX;
+
+			cancelAnimationFrame(n);
+            n = requestAnimationFrame(s);
+		}
+
+		oUl.onmouseout = function (){
+			cancelAnimationFrame(n);
+			for( var i = 0; i < aImg.length; i++ ){
+				aImg[i].removeAttribute( "style" )	
+			}	
+		};
+		
+	};
+</script>
+	</head>
+
+	<body>
+		<ul id="oUl">
+			<li>
+				<img src="./img/1.png">
+			</li>
+			<li>
+				<img src="./img/2.png">
+			</li>
+			<li>
+				<img src="./img/3.png">
+			</li>
+			<li>
+				<img src="./img/null.png">
+			</li>
+			<li>
+				<img src="./img/5.png">
+			</li>
+			<li>
+				<img src="./img/6.png">
+			</li>
+			<li>
+				<img src="./img/7.png">
+			</li>
+		</ul>
+	</body>
+</html>

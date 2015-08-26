@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			body,ul,li,img{
+				padding:0;
+				margin:0;
+			}
+			li{
+				list-style: none;
+			}
+			img{
+				border: none;
+			}
+			#oUl {
+				position: absolute;
+				left: 0;
+				bottom: 20px;
+			}
+			#oUl li {
+				float: left;
+				width: 13.8%;
+				 padding: 0.2%; 
+				position: relative;
+			}
+			#oUl li img{
+				width: 100%;
+				max-width: 100%;
+				height: auto;
+				 -webkit-transform: translate3d( 0px,80%,0px);
+				transform: translate3d( 0px,80%,0px); 
+				position: relative;/* 
+				-webkit-transition: 0.2s;
+				transition: 0.2s; */
+				will-change: transform;
+				/* -webkit-transition:0.06s cubic-bezier(.445,.05,.55,.95);
+				transition:0.06s cubic-bezier(.445,.05,.55,.95); */
+			}
+			#div2{
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				z-index: 10;
+				height: 370px;
+			}
+			#div2 div{
+				width: 10px;
+				height: 10px;
+				background: red;
+				position: absolute;
+				left: 0;
+				top:0;
+			}
+		</style>
+<script>
+	function view(){
+		return {
+			W:document.documentElement.clientWidth,
+			H:document.documentElement.clientHeight,
+		}
+	}
+	window.onload = function(){
+		var aImg = document.getElementsByTagName("img");
+		var aLi = document.getElementsByTagName("li");
+
+		var arr = [];
+
+		for( var i = 0; i < aImg.length; i++ ){
+			arr.push( { w:aImg[i].offsetWidth,h:aImg[i].offsetHeight,l:aLi[i].offsetLeft,t:aLi[i].offsetTop } );
+		};
+		
+		document.onmousemove = function (ev){
+			var e = ev || event;
+			if( e.clientX >=100 ){
+				var scale = 0;
+				scale = Math.abs( (e.clientX - arr[0].l-arr[0].w/2) )/view().W;
+
+				aImg[0].style.webkitTransform = "translate3d( 0px,"+100*scale+"%,0px)";
+				aImg[0].style.transform = "translate3d( 0px,"+100*scale+"%,0px)";
+				for( var i = 1; i < aImg.length; i++ ){
+
+					scale = Math.abs( (e.clientX - arr[i].l-arr[i].w/2) )/view().W;
+
+					aImg[i].style.webkitTransform = "translate3d( 0px,"+100*scale+"%,0px)";
+					aImg[i].style.transform = "translate3d( 0px,"+100*scale+"%,0px)";
+				}
+			}
+			
+		};	
+	};
+</script>
+	</head>
+
+	<body>
+		<ul id="oUl">
+			<li>
+				<img src="./img/1.png">
+			</li>
+			<li>
+				<img src="./img/2.png">
+			</li>
+			<li>
+				<img src="./img/3.png">
+			</li>
+			<li>
+				<img src="./img/4.png">
+			</li>
+			<li>
+				<img src="./img/5.png">
+			</li>
+			<li>
+				<img src="./img/6.png">
+			</li>
+			<li>
+				<img src="./img/7.png">
+			</li>
+		</ul>
+	</body>
+</html>

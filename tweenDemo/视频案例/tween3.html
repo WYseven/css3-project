@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			#div1{
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: absolute;
+				left: 0px;
+				top:50px;
+			}
+		</style>
+		<script type="text/javascript" src="../js/jquery.js"></script>
+		<script type="text/javascript" src="../js/TweenMax.js"></script>
+<script>
+window.onload = function (){
+
+	var t = new TimelineMax();
+
+		t.add("state0");
+	t.to("#div1",1,{left:300});
+		t.add("state1");
+		t.add(function (){
+			$("#div1").css("background","blue");	
+		})
+	t.to("#div1",1,{top:300});
+		t.add("state2");
+		t.add(function (){
+			$("#div1").css("background","green");	
+		})
+	t.to("#div1",1,{rotationY:180});
+		t.add("state3");
+
+	t.stop();
+
+	btn0.onclick = function (){
+		t.tweenTo( "state0" )
+	};
+	btn1.onclick = function (){
+		t.seek( "state1" );
+	};
+	btn2.onclick = function (){
+		t.tweenTo( "state2" )
+	};
+	btn3.onclick = function (){
+		t.tweenTo( "state3" )
+	};
+};
+
+</script>
+	</head>
+
+	<body>
+		<input type="button" id="btn0" value="state0">
+		<input type="button" id="btn1" value="state1-left:300">
+		<input type="button" id="btn2" value="state2-top:300">
+		<input type="button" id="btn3" value="state3-rotationY:180">
+		<div id="div1">向前走</div>
+	</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			#div1{
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: absolute;
+				left: 0px;
+				top:50px;
+			}
+		</style>
+		<script type="text/javascript" src="../js/jquery.js"></script>
+		<script type="text/javascript" src="../js/TweenMax.js"></script>
+<script>
+window.onload = function (){
+
+	var t = new TimelineMax();
+
+	t.to("#div1",1,{left:300,onComplete:function (){
+		//alert("本次left动画结束");	
+	},onReverseComplete:function (){
+		//alert("反向left动画结束")
+	}});
+	t.to("#div1",1,{top:300,onComplete:function (){
+		//alert("本次top动画结束");		
+	}},"-=0.5");
+	t.to("#div1",1,{rotationY:180,onComplete:function (){
+		//alert("本次top动画结束");		
+	}});
+
+	t.stop();
+
+	btn0.onclick = function (){
+		t.play();	
+	};
+	btn1.onclick = function (){
+		t.reverse();		
+	};
+};
+
+</script>
+	</head>
+
+	<body>
+		<input type="button" id="btn0" value="向前走">
+		<input type="button" id="btn1" value="向后走">
+		<div id="div1">向前走</div>
+	</body>
+</html>

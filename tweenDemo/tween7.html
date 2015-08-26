@@ -73,7 +73,7 @@ window.onload = function (){
 	var t = new TimelineMax();
 	t.add("state0");
 
-	t.to( "#div1",1,{left:200,onComplete:fn,onReverseComplete:fn} );
+	t.to( "#box .div1",1,{left:200,onComplete:fn,onReverseComplete:fn} );
 	t.add("state1");
 
 	t.to("#div1",1,{y:200,onComplete:fn,onReverseComplete:fn});
@@ -107,27 +107,31 @@ window.onload = function (){
 	btn4.onclick = function (){
 		t.tweenTo("state4");		
 	};
-
-
+	btn5.onclick = function (){
+		t.clear();		
+	};
 };
 
 </script>
 	</head>
 
 	<body>
-		<input type="button" id="btn0" value="state1-state0">
-		<input type="button" id="btn1" value="state1-left:200">
-		<input type="button" id="btn2" value="state2-top:200">
-		<input type="button" id="btn3" value="state3-旋转180deg">
-		<input type="button" id="btn4" value="state3-旋转为0deg">
-		<div id="div1">转动</div>
-		<hr/>
-		<div id="info">
-			<p>总时间：0</p>
-			<p>当前已运动后时间：0</p>
-			<p>当前状态：0</p>
-			<p>上一个状态：0</p>
-			<p>下一个状态：0</p>
+		<div id="box">
+			<input type="button" id="btn0" value="state1-state0">
+			<input type="button" id="btn1" value="state1-left:200">
+			<input type="button" id="btn2" value="state2-top:200">
+			<input type="button" id="btn3" value="state3-旋转180deg">
+			<input type="button" id="btn4" value="state3-旋转为0deg">
+			<input type="button" id="btn5" value="清除所有动画">
+			<div class="div1" id="div1">转动</div>
+			<hr/>
+			<div id="info">
+				<p>总时间：0</p>
+				<p>当前已运动后时间：0</p>
+				<p>当前状态：0</p>
+				<p>上一个状态：0</p>
+				<p>下一个状态：0</p>
+			</div>
 		</div>
 	</body>
 </html>
