@@ -14,7 +14,7 @@
 			img{
 				border: none;
 			}
-			#div1 {
+			.div1 {
 				width: 100%;
 				position: absolute;
 				left: 0;
@@ -22,7 +22,7 @@
 				height: 600px;
 				overflow:hidden;
 			}
-			#oUl {
+			.oUl {
 
 				position: absolute;
 				left: 0;
@@ -30,53 +30,51 @@
 				transition: transform .4s cubic-bezier(.445,.05,.55,.95);
 				overflow:hidden;
 			}
-			#oUl li {
+			.oUl li {
 				float: left;
 				width: 13.8%;
 				 padding: 0.2%; 
 				position: relative;
 				transition: transform .4s cubic-bezier(.445,.05,.55,.95);
 			}
-			#oUl li img{
+			.oUl li img{
 				width: 100%;
 				max-width: 100%;
-				height: auto;/* 
-				-webkit-transform: translate3d( 0px,60%,0px);
-				transform: translate3d( 0px,60%,0px);  */
+				height: auto;
 				position: relative;
 				will-change: transform;
-				-webkit-transition: transform .3s cubic-bezier(0,.68,.86,.98);
-				-transition: transform .3s cubic-bezier(0,.68,.86,.98);
+				-webkit-transition: transform .4s cubic-bezier(0,.68,.86,.98);
+				-transition: transform .4s cubic-bezier(0,.68,.86,.98);
 				cursor: pointer;
 				background-size:contain;
 				background-repeat:  no-repeat;
 			}
-			#oUl li:nth-child(1) img{
+			.oUl li:nth-child(1) img{
 				-webkit-transform: translate3d( 0px,63%,0px);
 				background-image: url(./img/1-1.png); 
 
 			}
-			#oUl li:nth-child(2) img{
+			.oUl li:nth-child(2) img{
 				-webkit-transform: translate3d( 0px,47%,0px);
 				background-image: url(./img/2-2.png); 
 			}
-			#oUl li:nth-child(3) img{
+			.oUl li:nth-child(3) img{
 				-webkit-transform: translate3d( 0px,67%,0px);
 				background-image: url(./img/3-3.png);
 			}
-			#oUl li:nth-child(4) img{
+			.oUl li:nth-child(4) img{
 				-webkit-transform: translate3d( 0px,47%,0px);
 				background-image: url(./img/4-4.png)
 			}
-			#oUl li:nth-child(5) img{
+			.oUl li:nth-child(5) img{
 				-webkit-transform: translate3d( 0px,27%,0px);
 				background-image: url(./img/5-5.png); 	
 			}
-			#oUl li:nth-child(6) img{
+			.oUl li:nth-child(6) img{
 				-webkit-transform: translate3d( 0px,47%,0px);
 				background-image: url(./img/6-6.png); 	
 			}
-			#oUl li:nth-child(7) img{
+			.oUl li:nth-child(7) img{
 				-webkit-transform: translate3d( 0px,61%,0px);
 				background-image: url(./img/7-7.png); 	
 			}
@@ -96,10 +94,10 @@
 				top:0;
 			}
 
-			#oUl li.prev{
+			.oUl li.prev{
 				transform: translate3d(-13%,0,0);
 			}
-			#oUl li.next{
+			.oUl li.next{
 				transform: translate3d(13%,0,0);
 			}
 			#abc li:nth-child(n) img{
@@ -120,117 +118,59 @@
 		var aImg = document.getElementsByTagName("img");
 		var aLi = document.getElementsByTagName("li");
 
-		var arr = [];
+		var oUl = document.querySelectorAll(".oUl")[0];
 
-		for( var i = 0; i < aImg.length; i++ ){
-			aImg[i].index = i;
-			arr.push( { w:aImg[i].offsetWidth,h:aImg[i].offsetHeight,l:aLi[i].offsetLeft,t:aLi[i].offsetTop } );
-		};
+		var l = oUl.offsetWidth/7 * 5;
 
-		var a = function(e, t,i) {
-            var n = arr[i].t / arr[i].h * 100,
-                o = (t - n) / 5;
-            n += o;
-             e.style.cssText = '-webkit-transform: translate3d(0, '+n+'%, 0); transform: translate3d(0,'+n+'%, 0);';
-            
-        };
+		var timer = null;
 
-        function s(){
-            r = 0,
-            i = aImg.length,
-            l = 5 * oUl.offsetWidth / 7,
-            c = (new Date).valueOf();
-            for (r; i > r; r++) {
-                var u = aImg[r],
-                    d = arr[r].l + arr[r].w / 2,
-                    f = Math.abs(d - eventX);
-                f > l && (f = l);
-                var m = 0;
-                m = Math.cos(f / l * Math.PI)-1, 
-                m = 150 * Math.abs(m);
-                a(u, m,r)
-            }
-        }
+		oUl.onmousemove = function (ev){
+			var e = ev || window.event;
 
-        var n,eventX;
+			var middle = 0,distance = 0,scale = 0;
+			//cancelAnimationFrame(timer);
+			timer = requestAnimationFrame(function (){
 
-        function mousemoveFn(ev){
-			 ev = ev || event;
+				for( var i = 0; i < aLi.length; i++ ){
+					middle = aLi[i].offsetLeft + aLi[i].offsetWidth/2;
+					distance = Math.abs(  e.clientX - middle );
 
-			 eventX = ev.clientX;
-
-			cancelAnimationFrame(n);
-            n = requestAnimationFrame(s);
-		};
-		function mousemoutFn(){
-			cancelAnimationFrame(n);
-			for( var i = 0; i < aImg.length; i++ ){
-				aImg[i].removeAttribute( "style" )	
-			};
-		}
-		
-		oUl.onmousemove = mousemoveFn;
-
-		oUl.onmouseout = mousemoutFn;
-
-		var onOff = true;
-
-		oUl.onclick = function (ev){
-			var e = ev || event;
-			if( onOff ){
-				var target = e.target;
-				if( target.nodeName === "LI" && (  target = e.target.children[0] ), target.nodeName === "IMG"  ){
-					document.body.id = "abc";
-					var o = arr[ target.index ].l + arr[ target.index ].w / 2;
-					o = view().W / 2 - o, 
-					
-					oUl.style.cssText = "-webkit-transform : translate3d(" + 3 * o + "px, 0, 0) scale(3);transform : translate3d(" + 3 * o + "px, 0, 0) scale(3)";
-
-					for( var i = 0; i < aImg.length; i++ ){
-						    aImg[i].style.cssText = '-webkit-transition: -webkit-transform .4s cubic-bezier(0.445, 0.05, 0.55, 0.95); transition:transform .4s cubic-bezier(0.445, 0.05, 0.55, 0.95)';
-						    if( i < target.index ){
-						    	aImg[i].parentNode.className = "prev";
-						    }else if( i > target.index ){
-						    	aImg[i].parentNode.className = "next";
-						    }
+					if( distance > l ){
+						distance = l;
 					}
-
-					target.parentNode.className = "lager";
-
-
-
-					   /* , $(t).addClass("large"), 
-					$(t).parent().prevAll("li").addClass("large-prev"), 
-					$(t).parent().nextAll("li").addClass("large-next");*/
 					
-					oUl.onmousemove = oUl.onmouseout = null;
+					//scale = Math.abs(Math.cos(distance/l*Math.PI)-1.1)*30;
+					scale = Math.abs((distance/l)/0.5)*30;
+
+					aImg[i].style.cssText = "-webkit-transform:translate3d(0,"+ scale +"%,0);transform:translate3d(0,"+ scale +"%,0)";
+
 				};
-				onOff = false;
-			}else{
-				oUl.removeAttribute("style");
-				document.body.id = "";
-
-				for( var i = 0; i < aImg.length; i++ ){
-					aImg[i].parentNode.className = "";
-				}
-
-				setTimeout(function (){
-					oUl.onmousemove = mousemoveFn;
-					oUl.onmouseout = mousemoutFn;
-					onOff = true;	
-				},300)
-			};
+			});
 
 			
+
+
 		};
+
+		oUl.onmouseout = function (){
+			cancelAnimationFrame(timer);
+			for( var j = 0; j < aImg.length; j++ ){
+				aImg[j].removeAttribute("style");
+			}	
+		};
+
+
+
+
 		
 	};
 </script>
 	</head>
 
 	<body>
-		<div id="div1">
-			<ul id="oUl">
+		<div class ="div1">
+			<ul class="oUl">
+
 				<li>
 					<img src="./img/null.png">
 				</li>
