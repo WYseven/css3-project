@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			*{
+				padding: 0;
+				margin:0;
+			}
+			#div1{
+				width: 100px;
+				height: 100px;
+				background:red;
+				position: absolute;
+				left: 500px;
+				top:100px; 
+				transition: 2s;
+				-webkit-transition: 2s;
+			}
+		</style>
+		<script>
+				/*
+						requestAnimationFrame
+						cancelAnimationFrame
+				*/
+
+				/*
+					[function(){}，function(){},function(){}，function(){}，function(){}]
+				*/
+			window.onload = function(){
+
+				var n = 0;
+				var timer = null;
+				/*function step(){
+					cancelAnimationFrame(timer);
+					 timer = requestAnimationFrame(function (){
+						n+=10;
+						div1.style.left = n + "px";
+						step();
+					})
+
+				}
+
+				step();*/
+
+				document.onclick = function (){
+					div1.style.cssText = "-webkit-transform:scale(3);transform:scale(3);";	
+				};
+
+				
+
+			};	
+		</script>
+	</head>
+
+	<body>
+		<div id="div1">
+			12
+		</div>
+	</body>
+</html>

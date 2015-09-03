@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			*{
+				padding: 0;
+				margin:0;
+			}
+			li{
+				list-style: none;
+			}
+			ul{
+				width: 500px;
+				border:1px solid #000;
+				position: relative;
+			}
+			ul li {
+				width: 100%;
+				height: 30px;
+				background: red;
+				margin:20px 0;
+				position: relative;
+				transition:1s;
+				-webkit-transition:1s;
+			}
+		</style>
+		<script>
+			window.onload = function (){
+				var oUl = document.getElementById("oUl");	
+				var aLi = oUl.getElementsByTagName("li");
+
+				oUl.onmousemove = function (ev){
+					
+					/*for( var i = 0; i < aLi.length; i++ ){
+						aLi[i].style.width = ev.clientX + "px";
+					}*/
+					console.log( ev.clientX );
+				};
+
+
+			};
+		</script>
+	</head>
+
+	<body>
+		<ul id="oUl">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</body>
+</html>

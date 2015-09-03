@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			body,ul,li,img{
+				padding:0;
+				margin:0;
+			}
+			body{
+				width: 100%;
+				height: 100%;
+			}
+			li{
+				list-style: none;
+			}
+			img{
+				border: none;
+			}
+			#div1 {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				left: 0;
+				overflow:hidden;
+			}
+			#oUl {
+				width: 100%;
+				height: 100%;
+				background:red;
+				position: absolute;
+				left: 0;
+				bottom: -10px;
+				transition: transform .4s cubic-bezier(.445,.05,.55,.95);
+				overflow:hidden;
+			}
+			#oUl li {
+				float: left;
+				width: 13.8%;
+				padding: 0.2%; 
+				position: relative;
+				transition: transform .4s cubic-bezier(.445,.05,.55,.95);
+				will-change: transform;
+			}
+			#oUl li img{
+				width: 100%;
+				max-width: 100%;
+				height: auto;
+				position: relative;
+				will-change: transform;
+				-webkit-transition: transform .2s ease-out;
+				transition: transform .2s ease-out;
+				cursor: pointer;
+				background-size:contain;
+				background-repeat:  no-repeat;
+			}
+			#oUl li:nth-child(1) img{
+				-webkit-transform: translate3d( 0px,63%,0px);
+				background-image: url(./img/1-1.png); 
+
+			}
+			#oUl li:nth-child(2) img{
+				-webkit-transform: translate3d( 0px,47%,0px);
+				background-image: url(./img/2-2.png); 
+			}
+			#oUl li:nth-child(3) img{
+				-webkit-transform: translate3d( 0px,67%,0px);
+				background-image: url(./img/3-3.png);
+			}
+			#oUl li:nth-child(4) img{
+				-webkit-transform: translate3d( 0px,47%,0px);
+				background-image: url(./img/4-4.png)
+			}
+			#oUl li:nth-child(5) img{
+				-webkit-transform: translate3d( 0px,27%,0px);
+				background-image: url(./img/5-5.png); 	
+			}
+			#oUl li:nth-child(6) img{
+				-webkit-transform: translate3d( 0px,47%,0px);
+				background-image: url(./img/6-6.png); 	
+			}
+			#oUl li:nth-child(7) img{
+				-webkit-transform: translate3d( 0px,61%,0px);
+				background-image: url(./img/7-7.png); 	
+			}
+			#div2{
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				z-index: 10;
+				height: 370px;
+			}
+			#div2 div{
+				width: 10px;
+				height: 10px;
+				background: red;
+				position: absolute;
+				left: 0;
+				top:0;
+			}
+
+			#oUl li.prev{
+				transform: translate3d(-13%,0,0);
+			}
+			#oUl li.next{
+				transform: translate3d(13%,0,0);
+			}
+			#abc li:nth-child(n) img{
+				transform:translate3d(0,25%,0) !important;
+			}
+			#abc ul li.lager img{
+				transform:translate3d(0,0,0) !important;
+			}
+		</style>
+<script>
+
+function view(){
+	return {
+		W:document.documentElement.clientWidth
+	}
+}
+function offsetL( obj ){
+	var left = 0;
+
+	while( obj ){
+		left += obj.offsetLeft;
+		obj = obj.offsetParent;
+	};
+	return left;
+}
+
+	window.onload = function(){
+
+		var aImg = document.getElementsByTagName("img");
+
+		var l = oUl.offsetWidth/7*5; //受影响的最大范围
+
+		var timer = null;
+
+		for( var i = 0; i < aImg.length; i++ ){
+			aImg[i].index = i;
+		};
+
+		function mousemoveFn(ev){
+			cancelAnimationFrame(timer);
+			timer = requestAnimationFrame(function (){
+				for( var i = 0; i < aImg.length; i++ ){
+					var middle = offsetL( aImg[i] ) + aImg[i].offsetWidth/2;  //每张图片中心点x的距离
+
+					var distane = Math.abs(  ev.clientX - middle );//鼠标到每张图片中心点X的差值
+
+					if( distane > l ) distane = l;
+
+					var scale = distane/l*60;
+
+					aImg[i].style.cssText = "-webkit-transform:translate3d(0,"+scale+"%,0);transform:translate3d(0,"+scale+"%,0)"
+				}	
+			},16)
+		};
+
+		function mouseoutFn(){
+			cancelAnimationFrame(timer);
+			for( var i = 0; i < aImg.length; i++ ){
+				aImg[i].removeAttribute( "style" );	
+			}	
+		};
+
+
+		oUl.onmousemove =mousemoveFn;
+		oUl.onmouseout = mouseoutFn;
+
+		var onOff = true;
+
+		oUl.onclick  = function (ev){
+
+			if( onOff ){
+
+				var target = ev.target;
+
+				if( target.nodeName.toLowerCase() === "li"  ){
+					target = target.children[0];
+				}
+
+				if( target.nodeName.toLowerCase() === "img" ){
+
+					var middle = offsetL(target) + target.offsetWidth/2;
+					var l = view().W/2 - middle;
+
+					document.body.id = "abc";
+
+					oUl.style.cssText = "-webkit-transform: translate3d("+(l*3)+"px,0,0) scale(3);transform:translate3d("+(l*3)+"px,0,0) scale(3);";
+
+					for( var i = 0; i < aImg.length; i++ ){
+						//aImg[i].removeAttribute("style");
+						if( i < target.index ){
+							aImg[i].parentNode.className = "prev";
+						}else if( i > target.index ){
+							aImg[i].parentNode.className = "next";
+						}
+					};
+
+					target.parentNode.className = "lager";
+
+
+					oUl.onmousemove = oUl.onmouseout = null;
+
+					onOff = false;
+				}
+			}else{
+				document.body.id = "";
+				oUl.removeAttribute("style");
+
+				for( var j = 0; j < aImg.length; j++ ){
+					aImg[j].parentNode.className = "";
+				}
+				setTimeout(function (){
+					oUl.onmousemove = mousemoveFn;
+					oUl.onmouseout = mouseoutFn;
+
+					onOff = true;	
+				},500)
+			}
+		};
+		
+	};
+</script>
+	</head>
+
+	<body>
+		<div id="div1">
+			<ul id="oUl">
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+			</ul>
+		</div>
+	</body>
+</html>

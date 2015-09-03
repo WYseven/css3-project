@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			body,ul,li,img{
+				padding:0;
+				margin:0;
+			}
+			li{
+				list-style: none;
+			}
+			img{
+				border: none;
+			}
+			#div1 {
+				width: 100%;
+				position: absolute;
+				left: 0;
+				bottom: -10px;
+				height: 600px;
+				overflow:hidden;
+			}
+			#oUl {
+
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				transition: transform .4s cubic-bezier(.445,.05,.55,.95);
+				overflow:hidden;
+			}
+			#oUl li {
+				float: left;
+				width: 13.8%;
+				padding: 0.2%; 
+				position: relative;
+				transition: transform .4s cubic-bezier(.445,.05,.55,.95);
+				will-change: transform;
+			}
+			#oUl li img{
+				width: 100%;
+				max-width: 100%;
+				height: auto;
+				position: relative;
+				will-change: transform;
+				-webkit-transition: transform .3s cubic-bezier(0,.68,.86,.98);
+				-transition: transform .3s cubic-bezier(0,.68,.86,.98);
+				cursor: pointer;
+				background-size:contain;
+				background-repeat:  no-repeat;
+			}
+			#oUl li:nth-child(1) img{
+				-webkit-transform: translate3d( 0px,63%,0px);
+				background-image: url(./img/1-1.png); 
+
+			}
+			#oUl li:nth-child(2) img{
+				-webkit-transform: translate3d( 0px,47%,0px);
+				background-image: url(./img/2-2.png); 
+			}
+			#oUl li:nth-child(3) img{
+				-webkit-transform: translate3d( 0px,67%,0px);
+				background-image: url(./img/3-3.png);
+			}
+			#oUl li:nth-child(4) img{
+				-webkit-transform: translate3d( 0px,47%,0px);
+				background-image: url(./img/4-4.png)
+			}
+			#oUl li:nth-child(5) img{
+				-webkit-transform: translate3d( 0px,27%,0px);
+				background-image: url(./img/5-5.png); 	
+			}
+			#oUl li:nth-child(6) img{
+				-webkit-transform: translate3d( 0px,47%,0px);
+				background-image: url(./img/6-6.png); 	
+			}
+			#oUl li:nth-child(7) img{
+				-webkit-transform: translate3d( 0px,61%,0px);
+				background-image: url(./img/7-7.png); 	
+			}
+			#div2{
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				z-index: 10;
+				height: 370px;
+			}
+			#div2 div{
+				width: 10px;
+				height: 10px;
+				background: red;
+				position: absolute;
+				left: 0;
+				top:0;
+			}
+
+			#oUl li.prev{
+				transform: translate3d(-13%,0,0);
+			}
+			#oUl li.next{
+				transform: translate3d(13%,0,0);
+			}
+			#abc li:nth-child(n) img{
+				transform:translate3d(0,25%,0);;
+			}
+			#abc ul li.lager img{
+				transform:translate3d(0,15%,0);;
+			}
+		</style>
+<script>
+	window.onload = function(){
+		var aImg = document.getElementsByTagName("img");
+		var aLi = document.getElementsByTagName("li");
+
+		var oUl = document.getElementById("oUl");
+
+		var l = oUl.offsetWidth/7 * 5;  //最大范围
+		var timer = null;
+		var clientX = 0;
+		function s(){
+			for( var i = 0; i < aImg.length; i++ ){
+				middle = aLi[i].offsetLeft+aLi[i].offsetWidth/2;  //求出每个图片的中心点
+				distance = Math.abs( middle - clientX );  //鼠标到中心点的距离
+
+				if( distance > l ) distance = l;  
+				//如果鼠标距中心点的位置大于最大范围，就直接等于最大范围的值
+				var scale = Math.abs(distance/l);  //求出鼠标到中心点的位置与最大范围值的比例
+				t = 0;
+				t = Math.abs(scale)*60;  // 鼠标移动 每个图片运动top值的百分比
+
+				// 图片离父级li上面的距离
+				var top = Math.abs(aImg[i].getBoundingClientRect().top-oUl.getBoundingClientRect().top);
+				// 空白距离 / 图片自身的高度 
+	            var n =   top / aImg[i].offsetHeight*100;
+	                // o = (n-t)/4;
+	               // n-= o;
+	             //  n = t;
+	             //n = t;
+				aImg[i].style.cssText = '-webkit-transform: translate3d(0, '+t+'%, 0); transform: translate3d(0,'+t+'%, 0);';
+			};
+			//cancelAnimationFrame(timer);
+			//timer = requestAnimationFrame(s);
+		}
+
+
+		oUl.onmousemove = function (ev){
+
+			var middle,distance,t;
+
+			clientX = ev.clientX;
+			//s();
+			cancelAnimationFrame(timer);
+			timer = requestAnimationFrame(s);
+			
+			
+
+		};
+
+
+		
+	};
+</script>
+	</head>
+
+	<body>
+		<div id="div1">
+			<ul id="oUl">
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+			</ul>
+		</div>
+	</body>
+</html>

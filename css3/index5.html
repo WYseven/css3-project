@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			body,ul,li,img{
+				padding:0;
+				margin:0;
+			}
+			li{
+				list-style: none;
+			}
+			img{
+				border: none;
+			}
+			.div1 {
+				width: 100%;
+				position: absolute;
+				left: 0;
+				bottom: -10px;
+				height: 600px;
+				overflow:hidden;
+			}
+			.oUl {
+
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				transition: transform .4s cubic-bezier(.445,.05,.55,.95);
+				overflow:hidden;
+			}
+			.oUl li {
+				float: left;
+				width: 13.8%;
+				 padding: 0.2%; 
+				position: relative;
+				transition: transform .4s cubic-bezier(.445,.05,.55,.95);
+			}
+			.oUl li img{
+				width: 100%;
+				max-width: 100%;
+				height: auto;
+				position: relative;
+				will-change: transform;
+				-webkit-transition: transform .4s cubic-bezier(0,.68,.86,.98);
+				-transition: transform .4s cubic-bezier(0,.68,.86,.98);
+				cursor: pointer;
+				background-size:contain;
+				background-repeat:  no-repeat;
+			}
+			.oUl li:nth-child(1) img{
+				-webkit-transform: translate3d( 0px,63%,0px);
+				background-image: url(./img/1-1.png); 
+
+			}
+			.oUl li:nth-child(2) img{
+				-webkit-transform: translate3d( 0px,47%,0px);
+				background-image: url(./img/2-2.png); 
+			}
+			.oUl li:nth-child(3) img{
+				-webkit-transform: translate3d( 0px,67%,0px);
+				background-image: url(./img/3-3.png);
+			}
+			.oUl li:nth-child(4) img{
+				-webkit-transform: translate3d( 0px,47%,0px);
+				background-image: url(./img/4-4.png)
+			}
+			.oUl li:nth-child(5) img{
+				-webkit-transform: translate3d( 0px,27%,0px);
+				background-image: url(./img/5-5.png); 	
+			}
+			.oUl li:nth-child(6) img{
+				-webkit-transform: translate3d( 0px,47%,0px);
+				background-image: url(./img/6-6.png); 	
+			}
+			.oUl li:nth-child(7) img{
+				-webkit-transform: translate3d( 0px,61%,0px);
+				background-image: url(./img/7-7.png); 	
+			}
+			#div2{
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				z-index: 10;
+				height: 370px;
+			}
+			#div2 div{
+				width: 10px;
+				height: 10px;
+				background: red;
+				position: absolute;
+				left: 0;
+				top:0;
+			}
+
+			.oUl li.prev{
+				transform: translate3d(-13%,0,0);
+			}
+			.oUl li.next{
+				transform: translate3d(13%,0,0);
+			}
+			#abc li:nth-child(n) img{
+				transform:translate3d(0,25%,0);;
+			}
+			#abc ul li.lager img{
+				transform:translate3d(0,15%,0);;
+			}
+		</style>
+		<script type="text/javascript" src="./jquery.js"></script>
+<script>
+	function view(){
+		return {
+			W:document.documentElement.clientWidth,
+			H:document.documentElement.clientHeight,
+		}
+	}
+	window.onload = function(){
+		var aImg = document.getElementsByTagName("img");
+		var aLi = document.getElementsByTagName("li");
+
+		var oUl = document.querySelectorAll(".oUl")[0];
+
+		var l = oUl.offsetWidth/7 * 5;
+
+		var timer = null;
+
+		oUl.onmousemove = function (ev){
+			var e = ev || window.event;
+
+			var middle = 0,distance = 0,scale = 0;
+			cancelAnimationFrame(timer);
+			timer = requestAnimationFrame(function (){
+
+				for( var i = 0; i < aLi.length; i++ ){
+					middle = aLi[i].offsetLeft + aLi[i].offsetWidth/2;
+					distance = Math.abs(  e.clientX - middle );
+
+					if( distance > l ){
+						distance = l;
+					}
+					
+					//scale = Math.abs(Math.cos(distance/l*Math.PI)-1.1)*30;
+					scale = Math.abs((distance/l)/0.5)*30;
+
+					aImg[i].style.cssText = "-webkit-transform:translate3d(0,"+ scale +"%,0);transform:translate3d(0,"+ scale +"%,0)";
+
+				};
+			});
+
+			
+
+
+		};
+
+		oUl.onmouseout = function (){
+			cancelAnimationFrame(timer);
+			for( var j = 0; j < aImg.length; j++ ){
+				aImg[j].removeAttribute("style");
+			}	
+		};
+
+
+
+
+		
+	};
+</script>
+	</head>
+
+	<body>
+		<div class ="div1">
+			<ul class="oUl">
+
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+			</ul>
+		</div>
+	</body>
+</html>

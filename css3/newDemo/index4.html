@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			body,ul,li,img{
+				padding:0;
+				margin:0;
+			}
+			li{
+				list-style: none;
+			}
+			img{
+				border: none;
+			}
+			.div1 {
+				width: 100%;
+				position: absolute;
+				left: 0;
+				bottom: -10px;
+				height: 600px;
+				overflow:hidden;
+			}
+			.oUl {
+
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				transition: transform .4s cubic-bezier(.445,.05,.55,.95);
+				overflow:hidden;
+			}
+			.oUl li {
+				float: left;
+				width: 13.8%;
+				position: relative;
+				transition: transform .4s cubic-bezier(.445,.05,.55,.95);
+			}
+			.oUl li img{
+				width: 100%;
+				max-width: 100%;
+				height: auto;
+				position: relative;
+				will-change: transform;
+				cursor: pointer;
+				background-size:contain;
+				background-repeat:  no-repeat;
+				-webkit-transition: transform .4s cubic-bezier(0,.68,.86,.98);
+				-transition: transform .4s cubic-bezier(0,.68,.86,.98);
+			}
+			.oUl li:nth-child(1) img{
+				-webkit-transform: translate3d( 0px,63%,0px);
+				background-image: url(./img/1-1.png);
+
+			}
+			.oUl li:nth-child(2) img{
+				-webkit-transform: translate3d( 0px,47%,0px);
+				background-image: url(./img/2-2.png); 
+			}
+			.oUl li:nth-child(3) img{
+				-webkit-transform: translate3d( 0px,67%,0px);
+				background-image: url(./img/3-3.png);
+			}
+			.oUl li:nth-child(4) img{
+				-webkit-transform: translate3d( 0px,47%,0px);
+				background-image: url(./img/4-4.png)
+			}
+			.oUl li:nth-child(5) img{
+				-webkit-transform: translate3d( 0px,27%,0px);
+				background-image: url(./img/5-5.png); 	
+			}
+			.oUl li:nth-child(6) img{
+				-webkit-transform: translate3d( 0px,47%,0px);
+				background-image: url(./img/6-6.png); 	
+			}
+			.oUl li:nth-child(7) img{
+				-webkit-transform: translate3d( 0px,61%,0px);
+				background-image: url(./img/7-7.png); 	
+			}
+			#div2{
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				z-index: 10;
+				height: 370px;
+			}
+			#div2 div{
+				width: 10px;
+				height: 10px;
+				background: red;
+				position: absolute;
+				left: 0;
+				top:0;
+			}
+
+			.oUl li.prev{
+				transform: translate3d(-13%,0,0);
+			}
+			.oUl li.next{
+				transform: translate3d(13%,0,0);
+			}
+			#abc li:nth-child(n) img{
+				transform:translate3d(0,25%,0) !important;/* 
+				-webkit-transition: .4s !important;
+				transition:.4s !important; */
+			}
+			#abc ul li.lager img{
+				transform:translate3d(0,15%,0) !important;/* 
+				-webkit-transition: .4s !important;
+				transition: .4s !important; */
+			}
+		</style>
+<script>
+	function view(){
+		return {
+			W:document.documentElement.clientWidth,
+			H:document.documentElement.clientHeight,
+		}
+	};
+	//找到某个元素距离屏幕最左边的距离
+	function offsetL( obj ){
+		var left = 0;
+		while( obj ){
+			left += obj.offsetLeft;
+			obj = obj.offsetParent;
+		};
+
+		return left;
+	}
+
+	window.onload = function(){
+		var aImg = document.getElementsByTagName("img");
+		var aLi = document.getElementsByTagName("li");
+
+
+		for( var i = 0; i < aLi.length; i++ ){
+			aLi[i].style.width = view().W/7/view().W * 100 + "%";
+		};
+
+		var oUl = document.querySelectorAll(".oUl")[0];
+
+		for( var i = 0; i < aImg.length; i++ ){
+			aImg[i].index = i;
+		}
+
+		var l = oUl.offsetWidth/7 * 5;
+
+		var timer = null,times,clientX = 0;
+
+		function animate(ev){
+			var timer2 = new Date().valueOf();
+
+			//console.log( clientX );
+
+			for( var i = 0; i < aImg.length; i++ ){
+
+				var middle = offsetL( aImg[i] ) + aImg[i].offsetWidth/2;  //每张图片中心点距离屏幕x轴的距离
+
+				var distance = Math.abs( clientX - middle );
+
+				if( distance > l ) distance = l;
+
+				var scale = Math.abs( distance/l )*60;
+				var top = Math.abs(aImg[i].getBoundingClientRect().top-oUl.getBoundingClientRect().top);
+				//console.log( top );
+	            var n =   top / aImg[i].offsetHeight*100,
+	                o = (scale - n)/5;
+	            n += o;
+				aImg[i].style.cssText = "-webkit-transform:translate3d(0,"+ n +"%,0);transform:translate3d(0,"+ n +"%,0);-webkit-transition:none;transition:none;";
+			};
+			if( timer2 - times < 1000  ){
+				timer = requestAnimationFrame(animate);
+			}
+		};
+		function moveFn( ev ){
+			clientX = ev.clientX;
+			cancelAnimationFrame(timer);
+          	timer = requestAnimationFrame(animate);
+          	times = new Date().valueOf();
+		};
+		function outFn(){
+			cancelAnimationFrame(timer);
+			for( var i = 0; i < aImg.length; i++ ){
+				aImg[i].removeAttribute( "style" )	
+			};
+		}
+
+		oUl.onmousemove = moveFn;
+		oUl.onmouseout = outFn;
+
+		var onOff = true;
+		oUl.onclick = function (ev){
+			var e = ev || event;
+			cancelAnimationFrame(timer);
+			if( onOff ){
+				var target = e.target;
+				if( target.nodeName === "LI" && (  target = e.target.children[0] ), target.nodeName === "IMG"  ){
+					
+					var o = offsetL(target) + target.offsetWidth / 2;
+					o = view().W / 2 - o;
+
+					for( var j = 0; j < aImg.length; j++ ){
+						 /*aImg[j].style.cssText += '-webkit-transition: -webkit-transform .4s ease-out; transition:transform .4s ease-out';*/
+						 aImg[j].style.webkitTransition = "-webkit-transform .4s cubic-bezier(0.445, 0.05, 0.55, 0.95)";
+						 aImg[j].style.transition = "transform .4s cubic-bezier(0.445, 0.05, 0.55, 0.95)";
+					};
+
+					document.body.id = "abc";
+					
+					oUl.style.cssText = "-webkit-transform : translate3d(" + 3 * o + "px, 0, 0) scale(3);transform : translate3d(" + 3 * o + "px, 0, 0) scale(3)";
+
+
+					for( var i = 0; i < aImg.length; i++ ){
+						    if( i < target.index ){
+						    	aImg[i].parentNode.className = "prev";
+						    }else if( i > target.index ){
+						    	aImg[i].parentNode.className = "next";
+						    }
+					}
+
+					target.parentNode.className = "lager";	
+
+					oUl.onmousemove = oUl.onmouseout = null;
+				};
+
+				onOff = false;
+			}else{
+				oUl.removeAttribute("style");
+				
+
+				for( var i = 0; i < aImg.length; i++ ){
+					aImg[i].parentNode.className = "";
+				};
+
+				document.body.id = "";
+
+				setTimeout(function (){
+					oUl.onmousemove = moveFn;
+					oUl.onmouseout = outFn;
+					onOff = true;	
+				},300)
+			};	
+		};
+		
+	};
+</script>
+	</head>
+
+	<body>
+		<div class ="div1">
+			<ul class="oUl">
+
+				<li>
+					<img src="./img/1-1.png">
+				</li>
+				<li>
+					<img src="./img/2-2.png">
+				</li>
+				<li>
+					<img src="./img/3-3.png">
+				</li>
+				<li>
+					<img src="./img/4-4.png">
+				</li>
+				<li>
+					<img src="./img/5-5.png">
+				</li>
+				<li>
+					<img src="./img/6-6.png">
+				</li>
+				<li>
+					<img src="./img/7-7.png">
+				</li>
+			</ul>
+		</div>
+	</body>
+</html>

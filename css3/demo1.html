@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			body,ul,li,img{
+				padding:0;
+				margin:0;
+			}
+			li{
+				list-style: none;
+			}
+			img{
+				border: none;
+			}
+			#div1 {
+				width: 100%;
+				position: absolute;
+				left: 0;
+				bottom: -10px;
+				height: 100%;
+				overflow:hidden;
+			}
+			#oUl {
+
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				transition: transform .4s cubic-bezier(.445,.05,.55,.95);
+				overflow:hidden;
+			}
+			#oUl li {
+				float: left;
+				width: 13.8%;
+				padding: 0.2%; 
+				position: relative;
+				transition: transform .4s cubic-bezier(.445,.05,.55,.95);
+				will-change: transform;
+			}
+			#oUl li img{
+				width: 100%;
+				max-width: 100%;
+				height: auto;
+				position: relative;
+				will-change: transform;
+				-webkit-transition: transform .2s ease-out;
+				transition: transform .2s ease-out;
+				cursor: pointer;
+				background-size:contain;
+				background-repeat:  no-repeat;
+			}
+			#oUl li:nth-child(1) img{
+				-webkit-transform: translate3d( 0px,63%,0px);
+				background-image: url(./img/1-1.png); 
+
+			}
+			#oUl li:nth-child(2) img{
+				-webkit-transform: translate3d( 0px,47%,0px);
+				background-image: url(./img/2-2.png); 
+			}
+			#oUl li:nth-child(3) img{
+				-webkit-transform: translate3d( 0px,67%,0px);
+				background-image: url(./img/3-3.png);
+			}
+			#oUl li:nth-child(4) img{
+				-webkit-transform: translate3d( 0px,47%,0px);
+				background-image: url(./img/4-4.png)
+			}
+			#oUl li:nth-child(5) img{
+				-webkit-transform: translate3d( 0px,27%,0px);
+				background-image: url(./img/5-5.png); 	
+			}
+			#oUl li:nth-child(6) img{
+				-webkit-transform: translate3d( 0px,47%,0px);
+				background-image: url(./img/6-6.png); 	
+			}
+			#oUl li:nth-child(7) img{
+				-webkit-transform: translate3d( 0px,61%,0px);
+				background-image: url(./img/7-7.png); 	
+			}
+			#div2{
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				z-index: 10;
+				height: 370px;
+			}
+			#div2 div{
+				width: 10px;
+				height: 10px;
+				background: red;
+				position: absolute;
+				left: 0;
+				top:0;
+			}
+
+			#oUl li.prev{
+				transform: translate3d(-13%,0,0);
+			}
+			#oUl li.next{
+				transform: translate3d(13%,0,0);
+			}
+			#abc li:nth-child(n) img{
+				transform:translate3d(0,25%,0);
+			}
+			#abc ul li.lager img{
+				transform:translate3d(0,15%,0);
+			}
+		</style>
+<script>
+	function view(){
+		return {
+			W:document.documentElement.clientWidth,
+			H:document.documentElement.clientHeight,
+		}
+	}
+	function offsetL(obj){
+		var left = 0;
+		while( obj ){
+			left += obj.offsetLeft;
+
+			obj = obj.offsetParent;
+		};
+
+		return left;
+	}
+	window.onload = function(){
+		var aImg = document.getElementsByTagName("img");
+		var aLi = document.getElementsByTagName("li");
+
+		var l = oUl.offsetWidth/7*5;
+
+		var n = null;
+
+		for( var i = 0; i < aImg.length; i++ ){
+			aImg[i].index = i;
+		}
+
+		function s(ev){
+			for( var i = 0; i < aImg.length; i++ ){
+				var middle = offsetL( aImg[i] ) + aImg[i].offsetWidth/2,
+					distance = Math.abs( middle -ev.clientX);
+				if( distance > l ) distance = l;
+				var scale = Math.abs(distance/l)*60;
+
+				aImg[i].style.cssText = "-webkit-transform:translate3d(0,"+scale+"%,0);transform:translate3d(0,"+scale+"%,0);";
+
+			};
+		};
+
+		function mousemoveFn(ev){
+			//s(ev);	
+			cancelAnimationFrame(n);
+			n = requestAnimationFrame(function (){
+				s(ev);	
+			});
+
+		};
+
+		function mousemoutFn(){
+			cancelAnimationFrame(n);
+			for( var i = 0; i < aImg.length; i++ ){
+				aImg[i].removeAttribute("style");	
+			}	
+		};
+
+		oUl.onmousemove = mousemoveFn;
+
+		oUl.onmouseout = mousemoutFn;
+
+		var onOff = true;
+
+		oUl.onclick = function (ev){
+
+			if( onOff ){
+
+				var target = ev.target;
+				if( target.nodeName.toLowerCase() === "li" ){
+					target = target.children[0];
+				};
+
+				if( target.nodeName.toLowerCase() === "img" ){
+
+					var middle = offsetL(target) + target.offsetWidth/2;
+
+					var l = view().W/2 - middle;
+
+					document.body.id = "abc";
+
+					oUl.style.cssText = "-webkit-transform : translate3d(" + 3 * l + "px, 0, 0) scale(3);transform : translate3d(" + 3 * l + "px, 0, 0) scale(3)";
+
+					for( var i = 0; i < aImg.length; i++ ){
+						aImg[i].style.cssText = '-webkit-transition: -webkit-transform .4s ease-out; transition:transform .4s ease-out';
+						if( i < target.index ){
+							aImg[i].parentNode.className = "prev";
+						}else if( i > target.index ){
+							aImg[i].parentNode.className = "next";
+						}
+					};
+
+					target.parentNode.className = "lager";
+
+					oUl.onmousemove = oUl.onmouseout = null;
+				};
+				onOff = false;
+			}else{
+				oUl.removeAttribute("style");
+				document.body.id = "";
+
+				for( var i = 0; i < aImg.length; i++ ){
+					aImg[i].parentNode.className = "";
+				};
+
+				setTimeout(function (){
+					oUl.onmousemove = mousemoveFn;
+					oUl.onmouseout = mousemoutFn;
+					onOff = true;	
+				},300);
+			}
+
+		};
+		
+	};
+</script>
+	</head>
+
+	<body>
+		<div id="div1">
+			<ul id="oUl">
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+				<li>
+					<img src="./img/null.png">
+				</li>
+			</ul>
+		</div>
+	</body>
+</html>
